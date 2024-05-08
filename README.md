@@ -17,7 +17,7 @@ Fork the repository and make your changes.
 Submit a pull request detailing the changes you've made and the rationale behind them.
 Ensure your code follows our coding standards and is well-documented.
 Support
-If you encounter any issues or have any questions about My Family Portrait, please don't hesitate to contact us at [Your Contact Email]. Our team is here to provide assistance and support to ensure you have a seamless experience using our platform.
+If you encounter any issues or have any questions about My Family Portrait, please don't hesitate to contact us at [myfamilypotrait@gmail.com]. Our team is here to provide assistance and support to ensure you have a seamless experience using our platform.
 
 Privacy Policy
 Before using My Family Portrait, please review our Privacy Policy to understand how we collect, use, maintain, and disclose information collected from users.
