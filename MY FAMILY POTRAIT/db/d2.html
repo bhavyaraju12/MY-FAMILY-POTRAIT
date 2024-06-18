@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+   <script src="https://cdn.tailwindcss.com"></script>
+   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-gray-300">
+   <button data-drawer-target="sidebar-multi-level-sidebar" data-drawer-toggle="sidebar-multi-level-sidebar"
+      aria-controls="sidebar-multi-level-sidebar" type="button"
+      class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-300 dark:focus:ring-gray-600">
+      <span class="sr-only">Open sidebar</span>
+      <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+         xmlns="http://www.w3.org/2000/svg">
+         <path clip-rule="evenodd" fill-rule="evenodd"
+            d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z">
+         </path>
+      </svg>
+   </button>
+
+   <aside id="sidebar-multi-level-sidebar"
+      class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+      aria-label="Sidebar">
+      <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-white">
+         <ul class="space-y-2 font-medium">
+            <li>
+               <a href="form.html"
+                  class="flex items-center p-2 text-gray-900 rounded-lg dark:text-black hover:bg-gray-100 dark:hover:bg-gray-300 group">
+                  <img src="./35-personal-information.png" width="20px" height="20px" alt="">
+                  <span class="ms-3">Personal Information</span>
+               </a>
+            </li>
+            <li>
+               <button type="button"
+                  class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-black dark:hover:bg-gray-300"
+                  aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
+                  <img src="./3.png" width="20px" height="20px" alt="">
+                  <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Medical History</span>
+                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                     viewBox="0 0 10 6">
+                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m1 1 4 4 4-4" />
+                  </svg>
+               </button>
+               <ul id="dropdown-example" class="hidden py-2 space-y-2">
+                  <li>
+                     <a href="#"
+                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-black dark:hover:bg-gray-700">Products</a>
+                  </li>
+                  <li>
+                     <a href="#"
+                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-black dark:hover:bg-gray-700">Billing</a>
+                  </li>
+                  <li>
+                     <a href="#"
+                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-black dark:hover:bg-gray-700">Invoice</a>
+                  </li>
+               </ul>
+            </li>
+            <li>
+               <a href="#"
+                  class="flex items-center p-2 text-gray-900 rounded-lg dark:text-black hover:bg-gray-100 dark:hover:bg-gray-300 group">
+                  <img src="./2.png" width="20px" height="20px" alt="">
+                  <span class="flex-1 ms-3 whitespace-nowrap">Test Results</span>
+               </a>
+            </li>
+            <li>
+               <a href="#"
+                  class="flex items-center p-2 text-gray-900 rounded-lg dark:text-black hover:bg-gray-100 dark:hover:bg-gray-300 group">
+                  <img src="./docic.jpg" width="20px" height="20px" alt="">
+                  <span class="flex-1 ms-3 whitespace-nowrap">Doctor's Visits</span>
+               </a>
+            </li>
+            <li>
+               <a href="#"
+                  class="flex items-center p-2 text-gray-900 rounded-lg dark:text-black hover:bg-gray-100 dark:hover:bg-gray-300 group">
+                  <img src="./fam.png" width="20px" height="20px" alt="">
+                  <span class="flex-1 ms-3 whitespace-nowrap">Family Members</span>
+               </a>
+            </li>
+            <li>
+               <a href="#"
+                  class="flex items-center p-2 text-gray-900 rounded-lg dark:text-black hover:bg-gray-100 dark:hover:bg-gray-300 group">
+                  <img src="./login.png" height="20px" width="20px" alt="">
+                  <span class="flex-1 ms-3 whitespace-nowrap">Log Out</span>
+               </a>
+            </li>
+         </ul>
+      </div>
+   </aside>
+
+   <div class="p-10 sm:ml-64">
+      <div class="p-20">
+         <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+               <!-- Heart Rate Card -->
+               <div class="bg-white shadow rounded-lg p-6">
+                  <h2 class="text-lg font-bold mb-4">Heart Rate</h2>
+                  <p class="text-2xl font-semibold">71/136</p>
+                  <div class="mt-4">
+                     <canvas id="heartRateChart" class="w-full h-32"></canvas>
+                  </div>
+               </div>
+
+               <!-- Fever Card -->
+               <div class="bg-white shadow rounded-lg p-6">
+                  <h2 class="text-lg font-bold mb-4">Fever</h2>
+                  <p class="text-2xl font-semibold">138°F</p>
+                  <div class="mt-4">
+                     <canvas id="feverChart" class="w-full h-32"></canvas>
+                  </div>
+               </div>
+
+               <!-- Treatment History Card -->
+               <div class="bg-white shadow rounded-lg p-6">
+                  <h2 class="text-lg font-bold mb-4">Treatment History</h2>
+                  <ul class="list-disc list-inside">
+                     <li>Chief complaints</li>
+                     <li>History of illness</li>
+                     <li>Physical examination</li>
+                     <li>Surgical history</li>
+                     <li>Obstetric history</li>
+                     <li>Medical allergies</li>
+                  </ul>
+               </div>
+
+               <!-- Progress Status Card -->
+               <div class="bg-white shadow rounded-lg p-6">
+                  <h2 class="text-lg font-bold mb-4">Progress Status</h2>
+                  <p class="text-md">1-7 March 2022</p>
+                  <p class="text-2xl font-semibold mt-2">+18%</p>
+                  <p class="text-3xl font-bold mt-2">91 this week</p>
+               </div>
+
+               <!-- ECG Card -->
+               <div class="bg-white shadow rounded-lg p-6">
+                  <h2 class="text-lg font-bold mb-4">ECG</h2>
+                  <p class="text-md">1-7 March 2022</p>
+                  <p class="text-md">72 bpm Average</p>
+                  <div class="mt-4">
+                     <canvas id="ecgChart" class="w-full h-32"></canvas>
+                  </div>
+               </div>
+
+               <!-- Mental Status Examination Card -->
+               <div class="bg-white shadow rounded-lg p-6">
+                  <h2 class="text-lg font-bold mb-4">Mental Status Examination</h2>
+                  <p class="text-md">From Last Checkout 8th Feb 2022</p>
+                  <p class="text-md">Gait Normal</p>
+                  <p class="text-md">Posture Normal</p>
+                  <p class="text-md">Motor Activity Normal</p>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <script>
+      // Heart Rate Chart
+      const heartRateCtx = document.getElementById('heartRateChart').getContext('2d');
+      new Chart(heartRateCtx, {
+         type: 'line',
+         data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+               label: 'Heart Rate',
+               data: [60, 70, 80, 75, 90, 85],
+               borderColor: 'rgba(75, 192, 192, 1)',
+               backgroundColor: 'rgba(75, 192, 192, 0.2)',
+               fill: true,
+            }]
+         },
+         options: {
+            scales: {
+               y: {
+                  beginAtZero: true
+               }
+            }
+         }
+      });
+
+      // Fever Chart
+      const feverCtx = document.getElementById('feverChart').getContext('2d');
+      new Chart(feverCtx, {
+         type: 'line',
+         data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+               label: 'Fever',
+               data: [98.6, 99.1, 100.2, 101.3, 102.4, 103.5],
+               borderColor: 'rgba(255, 99, 132, 1)',
+               backgroundColor: 'rgba(255, 99, 132, 0.2)',
+               fill: true,
+            }]
+         },
+         options: {
+            scales: {
+               y: {
+                  beginAtZero: true
+               }
+            }
+         }
+      });
+
+      // ECG Chart
+      const ecgCtx = document.getElementById('ecgChart').getContext('2d');
+      new Chart(ecgCtx, {
+         type: 'line',
+         data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+               label: 'ECG',
+               data: [70, 72, 75, 73, 76, 78],
+               borderColor: 'rgba(153, 102, 255, 1)',
+               backgroundColor: 'rgba(153, 102, 255, 0.2)',
+               fill: true,
+            }]
+         },
+         options: {
+            scales: {
+               y: {
+                  beginAtZero: true
+               }
+            }
+         }
+      });
+   </script>
+</body>
+
+</html>
