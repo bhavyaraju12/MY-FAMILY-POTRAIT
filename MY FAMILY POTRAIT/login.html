@@ -148,23 +148,23 @@
 					<div class="container content">
 					<div class="row">
 					<div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
-					<form class="reg-page">
+					<form class="reg-page" id="form_submit">
 					<div class="reg-header">
 					<h2>Login to your account</h2>
 					</div>
 
 					<div class="input-group " style="margin-bottom: 20px;">
 					<span class="input-group-addon"><i class="fa fa-user"></i></span>
-					<input type="Email" name="userid" placeholder="Email Address" class="form-control" required="">
+					<input type="Email" name="email" id="email" placeholder="Email Address" class="form-control" required="">
 					</div>
 					<div class="input-group " style="margin-bottom: 20px;">
 					<span class="input-group-addon"><i class="fa fa-lock"></i></span>
-					<input type="password" name="usrpsw" placeholder="Password" class="form-control" required="">
+					<input type="password" name="password" id="password" placeholder="Password" class="form-control" required="">
 					</div>
 
 					<div class="row">
 					<div class="col-md-6 checkbox">
-					<label><input type="checkbox"> Stay signed in</label>
+					<label></label>
 					</div>
 					<div class="col-md-6">
 					<button class="btn-u pull-right" type="submit" onclick="userlogin(form)">Login</button>
@@ -188,7 +188,7 @@
 		<div class="row">
 		<!-- About -->
 		<div class="col-md-3 " style="margin-bottom: 40px;">
-		<a href="index.html"><img id="logo-footer" class="footer-logo" src="assets/img/logo/unity_white.jpg" alt=""></a>
+		
 		<p>My Family Potrait explores the branches of your family tree like never before. Uncover potential genetic links to diseases and conditions, helping you make informed decisions about your health journey. With HealthHub, the puzzle pieces of your genetic heritage come together to paint a clearer picture of your well-being.</p>
 		</div><!--/col-md-3-->
 		<!-- End About -->
@@ -222,7 +222,6 @@
 		<!-- End Link List -->
 
 		<!-- Address -->
-		<div class="col-md-3 map-img " style="margin-bottom: 40px;">
 		<div class="headline"><h2>Contact Us</h2></div>
 		<address class="" style="margin-bottom: 40px;">
 		KOCHI,KERALA, IN <br />
@@ -289,6 +288,8 @@
 </div><!--/wrapper-->
 
 <!-- Login Javascript -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.22.5/dist/umd/supabase.min.js"></script>
+<script src="script2.js"></script>
 <script type="text/javascript" src="assets/plugins/jquery/validation.js"></script>
 
 </body>
