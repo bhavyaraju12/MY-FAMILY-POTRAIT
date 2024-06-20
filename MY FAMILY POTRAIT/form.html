@@ -111,23 +111,23 @@
             <h3 class="text-xl mb-4">Relative</h3>
             <div class="mb-4">
                 <label for="relative_name" class="block text-sm font-medium text-gray-700">Relative's Name:</label>
-                <input type="text" name="relative_name[]" class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
+                <input type="text" id="r_name" name="relative_name[]" class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
             </div>
             <div class="mb-4">
                 <label for="relative_relationship" class="block text-sm font-medium text-gray-700">Relationship:</label>
-                <input type="text" name="relative_relationship[]" class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
+                <input type="text" id="r_rel" name="relative_relationship[]" class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
             </div>
             <div class="mb-4">
                 <label for="relative_height" class="block text-sm font-medium text-gray-700">Relative's Height (cm):</label>
-                <input type="number" name="relative_height[]" class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
+                <input type="number" id="r_he" name="relative_height[]" class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
             </div>
             <div class="mb-4">
                 <label for="relative_weight" class="block text-sm font-medium text-gray-700">Relative's Weight (kg):</label>
-                <input type="number" name="relative_weight[]" class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
+                <input type="number" id="r_wt" name="relative_weight[]" class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
             </div>
             <div class="mb-4">
                 <label for="relative_medical_conditions" class="block text-sm font-medium text-gray-700">Relative's Medical Conditions:</label>
-                <select name="relative_medical_conditions[][]" multiple class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
+                <select name="relative_medical_conditions[][]" id="r_mc" multiple class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
                     <option value="select">Select</option>
                     <option value="cancer">Cancer</option>
                     <option value="dementia_alzheimers">Dementia / Alzheimer's</option>
@@ -144,11 +144,11 @@
             </div>
             <div class="mb-4">
                 <label for="relative_age" class="block text-sm font-medium text-gray-700">Relative's Age:</label>
-                <input type="number" name="relative_age[]" class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
+                <input type="number" id="r_age" name="relative_age[]" class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
             </div>
             <div class="mb-4">
                 <label for="relative_photo" class="block text-sm font-medium text-gray-700">Upload Relative's Photo:</label>
-                <input type="file" name="relative_photo[]" accept="image/*" class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
+                <input type="file" id="r_image" name="relative_photo[]" accept="image/*" class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
             </div>
             <button type="button" class="bg-red-500 text-white font-semibold px-4 py-2 rounded hover:bg-red-600" onclick="removeRelative(this)">Remove</button>
         </div>
