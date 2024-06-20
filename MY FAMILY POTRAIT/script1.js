@@ -14,6 +14,7 @@ form_submit.addEventListener("submit", async (event) => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     const confirmpassword = document.getElementById("confirmpassword").value;
+    const role = document.querySelector('input[name="role"]:checked').value;
 
     // Check if all fields are filled
     if (!firstname || !lastname || !email || !password || !confirmpassword) {
@@ -28,21 +29,47 @@ form_submit.addEventListener("submit", async (event) => {
     }
 
     try {
-        const { data, error } = await database
-            .from('users')
-            .insert([
-                { firstname, lastname, email, password }
-            ]);
+        if (role === "patient") {
+            const { data, error } = await database
+                .from('users')
+                .insert([
+                    { firstname, lastname, email, password }
+                ]);
 
-        if (error) {
-            throw error;
+            if (error) {
+                throw error;
+            }
+
+            console.log(data);
+            alert("Patient registered successfully!");
+        } else if (role === "doctor") {
+            const yoe = document.getElementById("yoe").value;
+            const spec = document.getElementById("spec").value;
+            const l_no = document.getElementById("l_no").value;
+
+            // Check if doctor-specific fields are filled
+            if (!yoe || !spec || !l_no) {
+                alert("All doctor fields must be filled out!");
+                return; // Stop form submission
+            }
+
+            const { data, error } = await database
+                .from('doctors')
+                .insert([
+                    { firstname, lastname, email, password, yoe, spec, l_no }
+                ]);
+
+            if (error) {
+                throw error;
+            }
+
+            console.log(data);
+            alert("Doctor registered successfully!");
         }
 
-        console.log(data);
-        alert("User registered successfully!");
         form_submit.reset();
     } catch (error) {
         console.error("Error inserting data:", error);
-        alert("There was an error submitting your form. Please try again.");
+        alert("An error occurred while registering. Please try again.");
     }
 });
