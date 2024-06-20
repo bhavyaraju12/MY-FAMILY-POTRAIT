@@ -49,7 +49,10 @@
             </div>
             <div class="mb-4">
                 <label for="allergies" class="block text-sm font-medium text-gray-700">Allergies:</label>
-                <textarea id="allergies" name="allergies" rows="4" class="mt-1 p-2 w-full border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500"></textarea>
+                <select id="allergies" name="allergies[]" multiple class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
+                    <option value="select">Select</option>
+                    <option value="cancer">Dust Allergies</option>
+                </select>
             </div>
             <div class="mb-4">
                 <label for="medications" class="block text-sm font-medium text-gray-700">Current Medications:</label>
