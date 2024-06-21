@@ -11,22 +11,22 @@
         <!-- Sidebar -->
         <aside class="w-64 bg-white shadow-md h-screen">
             <div class="p-4 border-b">
-                <h1 class="text-l ">MY FAMILY POTRAIT</h1>
+                <h1 class="text-l">MY FAMILY POTRAIT</h1>
             </div>
             <nav class="mt-4">
-                <a href="#about" class="block py-2.5 px-4  transition duration-200 hover:bg-green-600 hover:text-white" >About</a>
-                <a href="#patients" class="block py-2.5 px-4  transition duration-200 hover:bg-green-600 hover:text-white">Patients List</a>
+                <a href="#about" class="block py-2.5 px-4 transition duration-200 hover:bg-green-600 hover:text-white" onclick="showSection('about')">About</a>
+                <a href="#patients" class="block py-2.5 px-4 transition duration-200 hover:bg-green-600 hover:text-white" onclick="showSection('patients')">Patients List</a>
             </nav>
         </aside>
 
         <!-- Main Content -->
         <main class="flex-1 p-6 bg-gray-100">
             <section id="about" class="bg-white p-6 shadow mb-6">
-                <h2 class="text-xl mb-4"style="color: #72c02c;">ABOUT</h2>
+                <h2 class="text-xl mb-4" style="color: #72c02c;">ABOUT</h2>
                 <p>Welcome to the Doctor Dashboard. Here you can manage your patient information and view their medical histories.</p>
             </section>
 
-            <section id="patients" class="bg-white p-6 shadow">
+            <section id="patients" class="bg-white p-6 shadow hidden">
                 <h2 class="text-xl text-green-500 mb-4" style="color: #72c02c;">PATIENTS LIST</h2>
                 <table class="min-w-full bg-white">
                     <thead>
@@ -74,6 +74,19 @@
                 console.error('Error fetching patients:', error.message);
             }
         });
+
+        function showSection(sectionId) {
+            const aboutSection = document.getElementById('about');
+            const patientsSection = document.getElementById('patients');
+
+            if (sectionId === 'about') {
+                aboutSection.classList.remove('hidden');
+                patientsSection.classList.add('hidden');
+            } else if (sectionId === 'patients') {
+                aboutSection.classList.add('hidden');
+                patientsSection.classList.remove('hidden');
+            }
+        }
     </script>
 </body>
 </html>
