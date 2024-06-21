@@ -1,9 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical History Form</title>
+
+    <!-- Web Fonts -->
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin">
+
+    <!-- CSS Global Compulsory -->
+    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- CSS Header and Footer -->
+    <link rel="stylesheet" href="assets/css/header.css">
+    <link rel="stylesheet" href="assets/css/footer.css">
+
+    <!-- CSS Implementing Plugins -->
+    <link rel="stylesheet" href="assets/plugins/line-icons-pro/styles.css">
+    <link rel="stylesheet" href="assets/plugins/line-icons/line-icons.css">
+    <link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.min.css">
+
+    <!-- CSS Customization -->
+    <link rel="stylesheet" href="assets/css/custom.css">
+
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         .relative-section {
@@ -11,56 +32,68 @@
         }
     </style>
 </head>
-<body class="bg-gray-300">
-    <div class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl text-center mb-8">Medical History Form</h1>
-        <form id="medical-form" action="#" method="post" enctype="multipart/form-data">
-            <div class="mb-4">
-                <label for="name" class="block text-sm font-medium text-gray-700">Full Name:</label>
-                <input type="text" id="name" name="name" required class="mt-1 p-2 w-full focus:ring focus:ring-blue-200 focus:border-blue-500">
+
+<body class="bg-white ">
+    <div class="container mx-auto px-4 py-8 ">
+        <h1 class="text-3xl text-center color-green mb-8">Medical History Form</h1>
+        <form class="flex flex-col items-center" id="medical-form" action="#" method="post" enctype="multipart/form-data">
+            <div class="mb-4 flex flex-col item-center w-2/3 ">
+                <label for="name" class="block text-xl font-medium  text-gray-700">Full Name:</label>
+                <input type="text" id="name" name="name" required
+                    class="mt-1 p-2 w-full border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500">
             </div>
-            <div class="mb-4">
-                <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
-                <input type="email" id="email" name="email" required class="mt-1 p-2 w-full border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500">
+            <div class="mb-4  flex flex-col item-center w-2/3 ">
+                <label for="email" class="block text-xl font-medium  text-gray-700">Email:</label>
+                <input type="email" id="email" name="email" required
+                    class="mt-1 p-2 border-gray-300 border focus:ring focus:ring-blue-200 focus:border-blue-500">
             </div>
-            <div class="mb-4">
-                <label for="dob" class="block text-sm font-medium text-gray-700">Date of Birth:</label>
-                <input type="date" id="dob" name="dob" required class="mt-1 p-2 w-full border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500">
+            <div class="mb-4 flex flex-col item-center w-2/3 ">
+                <label for="dob" class="block text-xl  font-medium text-gray-700">Date of Birth:</label>
+                <input type="date" id="dob" name="dob" required
+                    class="mt-1 p-2   border-gray-300 border focus:ring focus:ring-blue-200 focus:border-blue-500">
             </div>
-            <div class="mb-4">
-                <label for="gender" class="block text-sm font-medium text-gray-700">Gender:</label>
-                <select id="gender" name="gender" class="mt-1 p-2 w-full border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500">
+            <div class="mb-4 flex flex-col item-center w-2/3 ">
+                <label for="gender" class="block text-xl font-medium text-gray-700">Gender:</label>
+                <select id="gender" name="gender"
+                    class="mt-1 p-2  border-gray-300 border focus:ring focus:ring-blue-200 focus:border-blue-500">
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="other">Other</option>
                 </select>
             </div>
-            <div class="mb-4">
-                <label for="height" class="block text-sm font-medium text-gray-700">Height (cm):</label>
-                <input type="number" id="height" name="height" required class="mt-1 p-2 w-full border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500">
+            <div class="mb-4 flex flex-col item-center w-2/3 ">
+                <label for="height" class="block text-xl font-medium text-gray-700">Height (cm):</label>
+                <input type="number" id="height" name="height" required
+                    class="mt-1 p-2  border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500">
             </div>
-            <div class="mb-4">
-                <label for="weight" class="block text-sm font-medium text-gray-700">Weight (kg):</label>
-                <input type="number" id="weight" name="weight" required class="mt-1 p-2 w-full border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500">
+            <div class="mb-4 flex flex-col item-center w-2/3 ">
+                <label for="weight" class="block text-xl font-medium text-gray-700">Weight (kg):</label>
+                <input type="number" id="weight" name="weight" required
+                    class="mt-1 p-2  border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500">
             </div>
-            <div class="mb-4">
-                <label for="blood_type" class="block text-sm font-medium text-gray-700">Blood Type:</label>
-                <input type="text" id="blood_type" name="blood_type" class="mt-1 p-2 w-full border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500">
+            <div class="mb-4 flex flex-col item-center w-2/3 ">
+                <label for="blood_type" class="block text-xl font-medium text-gray-700">Blood Type:</label>
+                <input type="text" id="blood_type" name="blood_type"
+                    class="mt-1 p-2  border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500">
             </div>
-            <div class="mb-4">
-                <label for="allergies" class="block text-sm font-medium text-gray-700">Allergies:</label>
-                <select id="allergies" name="allergies[]" multiple class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
+            <div class="mb-4 flex flex-col item-center w-2/3 ">
+                <label for="allergies" class="block text-xl font-medium text-gray-700">Allergies:</label>
+                <select id="allergies" name="allergies[]" multiple
+                    class="mt-1 p-2  border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500">
                     <option value="select">Select</option>
                     <option value="cancer">Dust Allergies</option>
                 </select>
             </div>
-            <div class="mb-4">
-                <label for="medications" class="block text-sm font-medium text-gray-700">Current Medications:</label>
-                <textarea id="medications" name="medications" rows="4" class="mt-1 p-2 w-full border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500"></textarea>
+            <div class="mb-4 flex flex-col item-center w-2/3 ">
+                <label for="medications" class="block text-xl font-medium text-gray-700">Current Medications:</label>
+                <textarea id="medications" name="medications" rows="4"
+                    class="mt-1 p-2  border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500"></textarea>
             </div>
-            <div class="mb-4">
-                <label for="medical_conditions" class="block text-sm font-medium text-gray-700">Medical Conditions:</label>
-                <select id="medical_conditions" name="medical_conditions[]" multiple class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
+            <div class="mb-4 flex flex-col item-center w-2/3 ">
+                <label for="medical_conditions" class="block text-xl font-medium text-gray-700">Medical
+                    Conditions:</label>
+                <select id="medical_conditions" name="medical_conditions[]" multiple
+                    class="mt-1 p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
                     <option value="select">Select</option>
                     <option value="cancer">Cancer</option>
                     <option value="dementia_alzheimers">Dementia / Alzheimer's</option>
@@ -75,59 +108,74 @@
                     <option value="stroke_brain_attack">Stroke / Brain Attack</option>
                 </select>
             </div>
-            <div class="mb-4">
-                <label for="twin" class="block text-sm font-medium text-gray-700">Were you born a twin?</label>
-                <select id="twin" name="twin" class="mt-1 p-2 w-full border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500">
+            <div class="mb-4 flex flex-col item-center w-2/3 ">
+                <label for="twin" class="block text-xl font-medium text-gray-700">Were you born a twin?</label>
+                <select id="twin" name="twin"
+                    class="mt-1 p-2 border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500">
                     <option value="yes">Yes</option>
                     <option value="no">No</option>
                 </select>
             </div>
-            <div class="mb-4">
-                <label for="adopted" class="block text-sm font-medium text-gray-700">Were you adopted?</label>
-                <select id="adopted" name="adopted" class="mt-1 p-2 w-full border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500">
+            <div class="mb-4 flex flex-col item-center w-2/3 ">
+                <label for="adopted" class="block text-xl font-medium text-gray-700">Were you adopted?</label>
+                <select id="adopted" name="adopted"
+                    class="mt-1 p-2  border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500">
                     <option value="yes">Yes</option>
                     <option value="no">No</option>
                 </select>
             </div>
-            <div class="mb-4">
-                <label for="photo" class="block text-sm font-medium text-gray-700">Upload Photo:</label>
-                <input type="file" id="photo" name="photo" accept="image/*" class="mt-1 p-2 w-full border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500">
+            <div class="mb-4 flex flex-col item-center w-2/3 ">
+                <label for="photo" class="block text-xl font-medium text-gray-700">Upload Photo:</label>
+                <input type="file" id="photo" name="photo" accept="image/*"
+                    class="mt-1 p-2 border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500">
             </div>
 
             <!-- Relatives Medical History Section -->
-            <div class="mt-8">
+            <div class="mt-8  w-2/3 ">
                 <h2 class="text-2xl mb-4">Relatives' Medical History</h2>
                 <div id="relatives-container"></div>
-                <button type="button" class="bg-green-500 text-white font-semibold px-4 py-2 rounded hover:bg-green-600" onclick="addRelative()">Add Relative</button>
+                <button type="button" class="bg-blue-600 text-white font-semibold px-4 py-2  hover:bg-blue-500"
+                    onclick="addRelative()">Add Relative</button>
             </div>
-
-            <button type="submit" class="bg-blue-500 text-white font-semibold px-4 py-2 rounded hover:bg-blue-600 mt-8">Submit</button>
-            <button type="reset" class="bg-gray-500 text-white font-semibold px-4 py-2 rounded hover:bg-gray-600 mt-8 ml-4">Reset</button>
+            <div class="flex gap-5">
+            <button type="submit" class="bg-blue-500 text-white font-semibold px-4 py-2   hover:bg-blue-600 mt-8 w-28"
+                style="background-color: #72c02c;">Submit</button>
+            <button type="reset"
+                class="bg-gray-500 text-white font-semibold px-4 py-2  hover:bg-gray-600 mt-8 w-28">Reset</button>
+            </div>
         </form>
     </div>
 
     <template id="relative-template">
-        <div class="relative-section bg-white p-4 mt-4 border border-gray-300 rounded-md">
+        <div class="relative-section bg-white p-4 mt-4 border w-full border-gray-300 rounded-md">
             <h3 class="text-xl mb-4">Relative</h3>
             <div class="mb-4">
-                <label for="relative_name" class="block text-sm font-medium text-gray-700">Relative's Name:</label>
-                <input type="text" id="r_name" name="relative_name[]" class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
+                <label for="relative_name" class="block text-xl font-medium text-gray-700">Relative's Name:</label>
+                <input type="text" name="relative_name[]"
+                    class="mt-1 p-2 w-2/3 border  focus:ring focus:ring-blue-200 focus:border-blue-500">
             </div>
             <div class="mb-4">
-                <label for="relative_relationship" class="block text-sm font-medium text-gray-700">Relationship:</label>
-                <input type="text" id="r_rel" name="relative_relationship[]" class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
+                <label for="relative_relationship" class="block text-xl font-medium text-gray-700">Relationship:</label>
+                <input type="text" name="relative_relationship[]"
+                    class="mt-1 p-2 w-2/3 border focus:ring focus:ring-blue-200 focus:border-blue-500">
             </div>
             <div class="mb-4">
-                <label for="relative_height" class="block text-sm font-medium text-gray-700">Relative's Height (cm):</label>
-                <input type="number" id="r_he" name="relative_height[]" class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
+                <label for="relative_height" class="block text-xl font-medium text-gray-700">Relative's Height
+                    (cm):</label>
+                <input type="number" name="relative_height[]"
+                    class="mt-1 p-2 w-2/3 border focus:ring focus:ring-blue-200 focus:border-blue-500">
             </div>
             <div class="mb-4">
-                <label for="relative_weight" class="block text-sm font-medium text-gray-700">Relative's Weight (kg):</label>
-                <input type="number" id="r_wt" name="relative_weight[]" class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
+                <label for="relative_weight" class="block text-xl font-medium text-gray-700">Relative's Weight
+                    (kg):</label>
+                <input type="number" name="relative_weight[]"
+                    class="mt-1 p-2 w-2/3 border focus:ring focus:ring-blue-200 focus:border-blue-500">
             </div>
             <div class="mb-4">
-                <label for="relative_medical_conditions" class="block text-sm font-medium text-gray-700">Relative's Medical Conditions:</label>
-                <select name="relative_medical_conditions[][]" id="r_mc" multiple class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
+                <label for="relative_medical_conditions" class="block text-xl font-medium text-gray-700">Relative's
+                    Medical Conditions:</label>
+                <select name="relative_medical_conditions[][]" multiple
+                    class="mt-1 p-2 w-2/3 border focus:ring focus:ring-blue-200 focus:border-blue-500">
                     <option value="select">Select</option>
                     <option value="cancer">Cancer</option>
                     <option value="dementia_alzheimers">Dementia / Alzheimer's</option>
@@ -143,14 +191,12 @@
                 </select>
             </div>
             <div class="mb-4">
-                <label for="relative_age" class="block text-sm font-medium text-gray-700">Relative's Age:</label>
-                <input type="number" id="r_age" name="relative_age[]" class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
+                <label for="relative_age" class="block text-xl font-medium text-gray-700">Relative's Age:</label>
+                <input type="number" name="relative_age[]"
+                    class="mt-1 p-2 w-2/3 border focus:ring focus:ring-blue-200 focus:border-blue-500">
             </div>
-            <div class="mb-4">
-                <label for="relative_photo" class="block text-sm font-medium text-gray-700">Upload Relative's Photo:</label>
-                <input type="file" id="r_image" name="relative_photo[]" accept="image/*" class="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
-            </div>
-            <button type="button" class="bg-red-500 text-white font-semibold px-4 py-2 rounded hover:bg-red-600" onclick="removeRelative(this)">Remove</button>
+            <button type="button" class="bg-red-500 text-white font-semibold px-4 py-2  hover:bg-red-600"
+                onclick="removeRelative(this)">Remove</button>
         </div>
     </template>
 
@@ -165,13 +211,6 @@
             button.parentElement.remove();
         }
     </script>
-     </script>
-
-     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
- <script src="formJS.js"></script>
 </body>
+
 </html>
-
-
-
-
