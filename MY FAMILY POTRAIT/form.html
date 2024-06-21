@@ -73,15 +73,28 @@
             </div>
             <div class="mb-4 flex flex-col item-center w-2/3 ">
                 <label for="blood_type" class="block text-xl font-medium text-gray-700">Blood Type:</label>
-                <input type="text" id="blood_type" name="blood_type"
-                    class="mt-1 p-2  border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500">
+                    <select id="blood_type" name="blood_type" required class="mt-1 p-2 w-full border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500">
+                        <option value="">Select</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
             </div>
             <div class="mb-4 flex flex-col item-center w-2/3 ">
                 <label for="allergies" class="block text-xl font-medium text-gray-700">Allergies:</label>
-                <select id="allergies" name="allergies[]" multiple
-                    class="mt-1 p-2  border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500">
-                    <option value="select">Select</option>
-                    <option value="cancer">Dust Allergies</option>
+                <select id="allergies" name="allergies" required class="mt-1 p-2 w-full border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500">
+                    <option value="">Select</option>
+                    
+                    <option value="food_allergies">Food Allergies</option>
+                    <option value="respiratory_allergies">Respiratory Allergies</option>
+                    <option value="skin_allergies">Skin Allergies</option>
+                    <option value="drug_allergies">Drug Allergies</option>                  
+                    <option value="insectsting_allergies">Insect Sting Allergies</option>
                 </select>
             </div>
             <div class="mb-4 flex flex-col item-center w-2/3 ">
@@ -92,8 +105,7 @@
             <div class="mb-4 flex flex-col item-center w-2/3 ">
                 <label for="medical_conditions" class="block text-xl font-medium text-gray-700">Medical
                     Conditions:</label>
-                <select id="medical_conditions" name="medical_conditions[]" multiple
-                    class="mt-1 p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:border-blue-500">
+                 <select id="allergies" name="allergies" required class="mt-1 p-2 w-full border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500">
                     <option value="select">Select</option>
                     <option value="cancer">Cancer</option>
                     <option value="dementia_alzheimers">Dementia / Alzheimer's</option>
@@ -170,6 +182,32 @@
                     (kg):</label>
                 <input type="number" name="relative_weight[]"
                     class="mt-1 p-2 w-2/3 border focus:ring focus:ring-blue-200 focus:border-blue-500">
+            </div>
+            <div class="mb-4 flex flex-col item-center w-2/3 ">
+                <label for="blood_type" class="block text-xl font-medium text-gray-700">Blood Type:</label>
+                    <select id="relative_blood_type" name="relative_blood_type" required class="mt-1 p-2 w-full border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500">
+                        <option value="">Select</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+            </div>
+            <div class="mb-4 flex flex-col item-center w-2/3 ">
+                <label for="allergies" class="block text-xl font-medium text-gray-700">Allergies:</label>
+                <select id="allergies" name="allergies" required class="mt-1 p-2 w-full border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-500">
+                    <option value="">Select</option>
+                    
+                    <option value="food_allergies">Food Allergies</option>
+                    <option value="respiratory_allergies">Respiratory Allergies</option>
+                    <option value="skin_allergies">Skin Allergies</option>
+                    <option value="drug_allergies">Drug Allergies</option>                  
+                    <option value="insectsting_allergies">Insect Sting Allergies</option>
+                </select>
             </div>
             <div class="mb-4">
                 <label for="relative_medical_conditions" class="block text-xl font-medium text-gray-700">Relative's
