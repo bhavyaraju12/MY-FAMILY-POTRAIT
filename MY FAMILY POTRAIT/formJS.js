@@ -21,6 +21,35 @@ form.addEventListener("submit", async (event) => {
     const adopted = document.getElementById("adopted").value;
     const photo = document.getElementById("photo").files[0];
 
+       // Upload photo to Supabase storage
+       let photoUrl = null;
+       if (photo) {
+           try {
+               const { data, error } = await database.storage.from('Photo').upload(`public/${photo.name}`, photo, {
+                   cacheControl: '3600',
+                   upsert: false
+               });
+   
+               if (error) {
+                   throw error;
+               }
+   
+               // Get the public URL of the uploaded file
+               const { publicURL, error: getUrlError } = database.storage.from('Photo').getPublicUrl(`public/${photo.name}`);
+   
+               if (getUrlError) {
+                   throw getUrlError;
+               }
+   
+               photoUrl = publicURL;
+           } catch (error) {
+               console.error('Error uploading photo:', error.message);
+               alert('Error uploading photo. Please try again.');
+               return;
+           }
+       }
+       console.log(photo);
+
     // Collect relative's data
     const relatives = [];
     document.querySelectorAll(".relative-section").forEach(relativeSection => {
