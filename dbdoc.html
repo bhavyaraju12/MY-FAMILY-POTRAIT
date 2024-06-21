@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard | Medical History</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="min-h-screen flex">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-md h-screen">
+            <div class="p-4 border-b">
+                <h1 class="text-l ">MY FAMILY POTRAIT</h1>
+            </div>
+            <nav class="mt-4">
+                <a href="#about" class="block py-2.5 px-4  transition duration-200 hover:bg-green-600 hover:text-white" >About</a>
+                <a href="#patients" class="block py-2.5 px-4  transition duration-200 hover:bg-green-600 hover:text-white">Patients List</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6 bg-gray-100">
+            <section id="about" class="bg-white p-6 shadow mb-6">
+                <h2 class="text-xl mb-4"style="color: #72c02c;">ABOUT</h2>
+                <p>Welcome to the Doctor Dashboard. Here you can manage your patient information and view their medical histories.</p>
+            </section>
+
+            <section id="patients" class="bg-white p-6 shadow">
+                <h2 class="text-xl text-green-500 mb-4" style="color: #72c02c;">PATIENTS LIST</h2>
+                <table class="min-w-full bg-white">
+                    <thead>
+                        <tr>
+                            <th class="py-2 px-4 border-b">Name</th>
+                            <th class="py-2 px-4 border-b">Email</th>
+                            <th class="py-2 px-4 border-b">Medical History</th>
+                        </tr>
+                    </thead>
+                    <tbody id="patientsTable">
+                        <!-- Patients data will be injected here -->
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+        const supabaseUrl = 'https://<YOUR_SUPABASE_URL>';
+        const supabaseKey = '<YOUR_SUPABASE_ANON_KEY>';
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const { data: patients, error } = await supabase
+                    .from('patients')
+                    .select('id, firstname, lastname, email, medical_history');
+
+                if (error) {
+                    throw error;
+                }
+
+                const patientsTable = document.getElementById('patientsTable');
+                patients.forEach(patient => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="py-2 px-4 border-b">${patient.firstname} ${patient.lastname}</td>
+                        <td class="py-2 px-4 border-b">${patient.email}</td>
+                        <td class="py-2 px-4 border-b">${patient.medical_history}</td>
+                    `;
+                    patientsTable.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error fetching patients:', error.message);
+            }
+        });
+    </script>
+</body>
+</html>
