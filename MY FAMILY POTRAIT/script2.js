@@ -54,7 +54,7 @@ form_submit.addEventListener("submit", async (event) => {
         if (data && data.password === password) {
             alert("Login successful!");
             // Redirect to the dashboard or another page
-            window.location.href = "db/d2.html";
+            window.location.href = "dbdoc.html";
         } else {
             alert("Invalid email or password.");
         }
