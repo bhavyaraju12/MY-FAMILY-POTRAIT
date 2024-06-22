@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Doctor</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css"> <!-- If you have additional custom styles -->
+
+    <!-- Web Fonts -->
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin">
+
+    <!-- CSS Global Compulsory -->
+    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- CSS Header and Footer -->
+    <link rel="stylesheet" href="assets/css/header.css">
+    <link rel="stylesheet" href="assets/css/footer.css">
+
+    <!-- CSS Implementing Plugins -->  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="assets/plugins/line-icons-pro/styles.css">
+    <link rel="stylesheet" href="assets/plugins/line-icons/line-icons.css">
+    <link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.min.css">
+
+
+    <!-- CSS Customization -->
+    <link rel="stylesheet" href="assets/css/custom.css">
+</head>
+
+<body class="bg-gray-100">
+    <div>
+  
+   
+        <div class=" w-2/3 h-screen mx-auto p-20 bg-white shadow rounded-md ">
+            <h1 class="text-2xl font-bold text-center color-green mb-6">About Dr. John Doe</h1>
+            <div class="flex items-center justify-center mb-6">
+                <label for="photo" class="w-32 h-32 flex items-center justify-center rounded-full bg-gray-200">
+                    <img id="preview" src="placeholder.jpg" alt="Doctor's Photo" class="w-32 h-32 rounded-full">
+                    <input type="file" id="photo" name="photo" accept="image/*" class="hidden">
+                </label>
+            </div>
+            <div class="">
+                <div class="flex flex-col text-2xl items-center" >
+                    <p><strong>Name:</strong> Dr. John Doe</p>
+                    <p><strong>Age:</strong> 45</p>
+                    <p><strong>Hospital:</strong> Medical Center Hospital</p>
+                    <p><strong>Specialization:</strong> Cardiology</p>
+                    <p><strong>Years of Experience:</strong> 20</p>
+                    <p><strong>License Number:</strong> XXXXXXX</p>
+                </div>
+            </div>
+       
+    </div>
+</div>
+    <script>
+        // Example JavaScript for photo uploading and preview
+        document.addEventListener("DOMContentLoaded", function () {
+            const photoInput = document.getElementById('photo');
+            const preview = document.getElementById('preview');
+
+            photoInput.addEventListener('change', function () {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        preview.src = e.target.result;
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+
+    </script>
+</body>
+
+</html>
