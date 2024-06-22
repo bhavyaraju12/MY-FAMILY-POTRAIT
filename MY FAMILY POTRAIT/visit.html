@@ -3,119 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor's Visit Scheduler</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Doctor's Appointment Booking</title>
+    <!-- Web Fonts -->
+		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin">
+
+		<!-- CSS Global Compulsory -->
+		<link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="assets/css/style.css">
+
+		<!-- CSS Header and Footer -->
+		<link rel="stylesheet" href="assets/css/header.css">
+		<link rel="stylesheet" href="assets/css/footer.css">
+
+		<!-- CSS Implementing Plugins -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+		<link rel="stylesheet" href="assets/plugins/line-icons-pro/styles.css">
+		<link rel="stylesheet" href="assets/plugins/line-icons/line-icons.css">
+		<link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.min.css">
+		
+
+		<!-- CSS Customization -->
+		<link rel="stylesheet" href="assets/css/custom.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px gray;
+        }
+        h1 {
+            text-align: center;
+        }
+        .available-dates {
+            margin-bottom: 20px;
+        }
+        .date {
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .date:hover {
+            background-color: #f1f1f1;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form-group button {
+            padding: 10px 15px;
+            border: none;
+            background:#72c02c;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background: #72c02c;
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
-    <div id="app"></div>
-    <script >
-        document.addEventListener("DOMContentLoaded", function() {
-    const app = document.getElementById('app');
-
-    const routes = {
-        '/': homeView,
-        '/schedule': scheduleView
-    };
-
-    function navigate(path) {
-        window.history.pushState({}, path, window.location.origin + path);
-        app.innerHTML = routes[path]();
-    }
-
-    window.onpopstate = () => {
-        app.innerHTML = routes[window.location.pathname]();
-    };
-
-    function homeView() {
-        const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
-        const appointmentsHTML = appointments.map(appointment => `
-            <div class="p-4 mb-4 bg-white shadow rounded-md">
-                <p><strong>Name:</strong> ${appointment.name}</p>
-                <p><strong>Email:</strong> ${appointment.email}</p>
-                <p><strong>Phone:</strong> ${appointment.phone}</p>
-                <p><strong>Reason:</strong> ${appointment.reason}</p>
-                <p><strong>Date:</strong> ${appointment.date}</p>
+<body>
+    <div class="container">
+        <h1 class="color-green">Schedule an Appointment</h1>
+        <div class="available-dates" id="available-dates"></div>
+        <form id="booking-form" style="display: none;">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required>
             </div>
-        `).join('');
-
-        return `
-            <div class="max-w-4xl mx-auto mt-10 p-6 bg-white shadow rounded-md">
-                <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Welcome to Doctor's Visit Scheduler</h1>
-                <div class="calendar mb-6">
-                    <iframe src="https://calendar.google.com/calendar/embed?src=your_calendar_id&ctz=your_time_zone" class="w-full h-96 rounded-md border-0"></iframe>
-                </div>
-                <button onclick="navigate('/schedule')" class="w-full py-2 px-4 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600">Schedule an Appointment</button>
-                <div class="appointments mt-6">
-                    <h2 class="text-xl font-bold text-gray-800 mb-4">Previous Appointments</h2>
-                    ${appointments.length ? appointmentsHTML : '<p>No appointments yet.</p>'}
-                </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
             </div>
-        `;
-    }
-
-    function scheduleView() {
-        return `
-            <div class="max-w-4xl mx-auto mt-10 p-6 bg-white shadow rounded-md">
-                <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Schedule a Doctor's Visit</h1>
-                <form id="scheduleForm">
-                    <div class="mb-4">
-                        <label for="name" class="block text-gray-700 font-semibold mb-2">Full Name</label>
-                        <input type="text" id="name" name="name" class="w-full p-2 border rounded-md" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="email" class="block text-gray-700 font-semibold mb-2">Email</label>
-                        <input type="email" id="email" name="email" class="w-full p-2 border rounded-md" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="phone" class="block text-gray-700 font-semibold mb-2">Phone Number</label>
-                        <input type="tel" id="phone" name="phone" class="w-full p-2 border rounded-md" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="reason" class="block text-gray-700 font-semibold mb-2">Reason for Visit</label>
-                        <textarea id="reason" name="reason" rows="4" class="w-full p-2 border rounded-md" required></textarea>
-                    </div>
-                    <div class="mb-4">
-                        <label for="date" class="block text-gray-700 font-semibold mb-2">Date</label>
-                        <input type="date" id="date" name="date" class="w-full p-2 border rounded-md" required>
-                    </div>
-                    <button type="submit" class="w-full py-2 px-4 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600">Schedule Appointment</button>
-                </form>
-                <button onclick="navigate('/')" class="w-full mt-4 py-2 px-4 bg-gray-500 text-white font-semibold rounded-md hover:bg-gray-600">Back to Home</button>
+            <div class="form-group">
+                <label for="reason">Reason for Visit</label>
+                <textarea id="reason" name="reason" rows="4" required></textarea>
             </div>
-        `;
-    }
+            <div class="form-group">
+                <label for="meet-option">Online</label>
+                <select id="meet-option" name="meet-option">
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                </select>
+            </div>
+            <input type="hidden" id="selected-date" name="date">
+            <div class="form-group">
+                <button type="submit" class="bg-custom">Book Appointment</button>
+            </div>
+        </form>
+        <div id="confirmation" style="display: none;">
+            <h2>Appointment Confirmed</h2>
+            <p>Your token number is: <span id="token-number"></span></p>
+            <p id="meet-link" style="display: none;">Google Meet Link: <a href="#" target="_blank" id="meet-url"></a></p>
+        </div>
+    </div>
 
-    app.innerHTML = routes[window.location.pathname]();
+    <script>
+        // Example available dates
+        const availableDates = [
+            { date: '2024-06-24T10:00:00', display: 'June 29, 2024 - 10:00 AM' },
+            { date: '2024-06-25T14:00:00', display: 'July 6, 2024 - 02:00 PM' },
+            { date: '2024-06-26T09:00:00', display: 'July 13, 2024 - 09:00 AM' },
+            { date: '2024-06-26T09:00:00', display: 'July 20, 2024 - 09:00 AM' },
+            { date: '2024-06-26T09:00:00', display: 'July 27, 2024 - 09:00 AM' },
+        ];
 
-    document.body.addEventListener('submit', function(event) {
-        if (event.target.id === 'scheduleForm') {
+        // Populate available dates
+        const datesContainer = document.getElementById('available-dates');
+        availableDates.forEach(({ date, display }) => {
+            const dateElement = document.createElement('div');
+            dateElement.classList.add('date');
+            dateElement.innerText = display;
+            dateElement.addEventListener('click', () => selectDate(date));
+            datesContainer.appendChild(dateElement);
+        });
+
+        function selectDate(date) {
+            document.getElementById('selected-date').value = date;
+            document.getElementById('booking-form').style.display = 'block';
+        }
+
+        // On form submit
+        document.getElementById('booking-form').addEventListener('submit', function(event) {
             event.preventDefault();
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
             const reason = document.getElementById('reason').value;
-            const date = document.getElementById('date').value;
+            const date = document.getElementById('selected-date').value;
+            const meetOption = document.getElementById('meet-option').value;
 
-            const appointment = { name, email, phone, reason, date };
-            const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
-            appointments.push(appointment);
-            localStorage.setItem('appointments', JSON.stringify(appointments));
+            // Generate a token number
+            const tokenNumber = Math.floor(Math.random() * 10000) + 1;
 
-            alert('Appointment Scheduled!');
-            navigate('/');
-        }
-    });
+            // Display confirmation
+            document.getElementById('booking-form').style.display = 'none'
+            document.getElementById('confirmation').style.display = 'block';
+            document.getElementById('token-number').innerText = tokenNumber;
 
-    document.body.addEventListener('click', function(event) {
-        if (event.target.tagName === 'A' && event.target.getAttribute('href').startsWith('/')) {
-            event.preventDefault();
-            navigate(event.target.getAttribute('href'));
-        }
-    });
-
-    window.navigate = navigate;
-});
-
+            // Generate Google Meet link if selected
+            if (meetOption === 'yes') {
+                const meetLink = https//meet.google.com/new;
+                document.getElementById('meet-link').style.display = 'block';
+                document.getElementById('meet-url').href = meetLink;
+                document.getElementById('meet-url').innerText = meetLink;
+            }
+        });
     </script>
 </body>
 </html>
