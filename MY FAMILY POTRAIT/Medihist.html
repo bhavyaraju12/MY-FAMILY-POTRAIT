@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/custom.css">
+
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin">
+    <style>
+        .bg-custom-green {
+            background-color:  #ebf0e6 /* Darker shade of green */
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+<div class="container mx-auto px-4 py-8">
+    <!-- User Profile Card -->
+    <div class="bg-custom-green p-6 mb-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-bold color-green mb-4">User Profile</h2>
+        <div class="flex items-center mb-4">
+            <img src="user_photo.jpg" alt="User Photo" class="w-16 h-16 rounded-full mr-4">
+            <div>
+                <p class="text-lg font-semibold">John Doe</p>
+                <p class="text-sm text-black-300">Email: john.doe@example.com</p>
+            </div>
+        </div>
+        <table class="table-auto w-full mb-4 text-green">
+            <tbody>
+                <tr>
+                    <td class="font-semibold">Date of Birth:</td>
+                    <td>1990-01-01</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold">Gender:</td>
+                    <td>Male</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold">Height (cm):</td>
+                    <td>180</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold">Weight (kg):</td>
+                    <td>75</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold">Blood Type:</td>
+                    <td>O+</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold">Allergies:</td> 
+                    <td>Dust Allergy</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold">Current Medications:</td>          
+                    <td>Medicine A, Medicine B</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold">Medical Conditions:</td>
+                    <td>Diabetes, High Blood Pressure</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold">Born a Twin:</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold">Adopted:</td>
+                    <td>No</td>
+                </tr>
+            </tbody>
+        </table>
+        <button style="background-color: #72c02c;color: white; border-radius: 5px; border: 4px; padding: 10px;"><a href="form.html">Update</a></button>
+    </div>
+
+    <!-- Relatives Card -->
+    <div class="bg-custom-green p-6 mb-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-bold color-green mb-4">Relatives' Information</h2>
+        <div class="relatives-information">
+            <!-- Relatives' information will be dynamically populated here -->
+            <img src="user_photo.jpg" alt="User Photo" class="w-16 h-16 rounded-full mr-4">
+            <div>
+                <p class="text-lg font-semibold">Sam Doe</p>
+                <p class="text-sm text-black-300">Email: sam.doe@example.com</p>
+            </div>
+            <table class="table-auto w-full mb-4 text-green">
+                <tbody>
+                    <tr>
+                        <td class="font-semibold">Relationship</td>
+                        <td>Brother</td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold">Height (cm):</td>
+                        <td>175</td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold">Weight (kg):</td>
+                        <td>70</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="font-semibold">Blood group:</td>
+                        <td>B+ve</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="font-semibold">Medical conditions:</td>
+                        <td>Diabetes, High Blood Pressure</td>
+                    </tr>
+                        <td class="font-semibold">Age</td>
+                        <td>21</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <button style="background-color: #72c02c;color: white; border-radius: 5px; border: 4px; padding: 10px;"><a href="form.html">Update</a></button>
+    </div>
+
+    <!-- Relatives Card -->
+    <div class="bg-custom-green p-6 mb-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-bold mb-4">Relatives' Information</h2>
+        <div class="relatives-information">
+            <!-- Relatives' information will be dynamically populated here -->
+        </div>
+
+
+        <button style="background-color: #72c02c;color: white; border-radius: 5px; border: 4px; padding: 10px;"><a href="form.html">Update</a></button>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="mhJS.js"></script>
+</body>
+</html>
