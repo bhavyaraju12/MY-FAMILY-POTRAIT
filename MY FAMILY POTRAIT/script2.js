@@ -6,7 +6,7 @@ console.log(database);
 
 const login_submit = document.getElementById("form_submit");
 
-form_submit.addEventListener("submit", async (event) => {
+login_submit.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const email = document.getElementById("email").value;
