@@ -2,64 +2,62 @@ const key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZi
 const url = "https://nbkplmfperjtegugcwzz.supabase.co";
 const database = supabase.createClient(url, key);
 
-console.log(database);
+document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('form_submit');
 
-const login_submit = document.getElementById("form_submit");
+    loginForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
 
-login_submit.addEventListener("submit", async (event) => {
-    event.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    // Check if all fields are filled
-    if (!email || !password) {
-        alert("All fields must be filled out!");
-        return; // Stop form submission
-    }
-
-    try {
-        // First, check the 'users' table
-        let { data, error } = await database
-            .from('users')
-            .select()
-            .eq('email', email)
-            .single();
-
-        if (error) {
-            // If there's an error in the query, log it and try the next table
-            console.error("Error checking users table:", error);
-        }
-
-        // If user is found and password matches
-        if (data && data.password === password) {
-            alert("Login successful!");
-            // Redirect to the dashboard or another page
-            window.location.href = "db/d2.html";
+        if (!email || !password) {
+            alert("All fields must be filled out!");
             return;
         }
 
-        // If not found or password doesn't match, check the 'doctors' table
-        ({ data, error } = await database
-            .from('doctors')
-            .select()
-            .eq('email', email)
-            .single());
+        try {
+            let { data, error } = await database
+                .from('users')
+                .select()
+                .eq('email', email)
+                .single();
 
-        if (error) {
-            throw error;
-        }
+            if (error) {
+                console.error("Error checking users table:", error);
+            }
 
-        // If doctor is found and password matches
-        if (data && data.password === password) {
-            alert("Login successful!");
-            // Redirect to the dashboard or another page
-            window.location.href = "dbdoc.html";
-        } else {
-            alert("Invalid email or password.");
+            if (data && data.password === password) {
+                if (data.role === 'admin') {
+                    alert("Login successful!");
+                    window.location.href = "admin.html";
+                    return;
+                } else {
+                    alert("Login successful!");
+                    window.location.href = "db/d2.html";
+                    return;
+                }
+            }
+
+            ({ data, error } = await database
+                .from('doctors')
+                .select()
+                .eq('email', email)
+                .single());
+
+            if (error) {
+                throw error;
+            }
+
+            if (data && data.password === password) {
+                alert("Login successful!");
+                window.location.href = "dbdoc.html";
+            } else {
+                alert("Invalid email or password.");
+            }
+        } catch (error) {
+            console.error("Error logging in:", error);
+            alert("There was an error logging in. Please try again.");
         }
-    } catch (error) {
-        console.error("Error logging in:", error);
-        alert("There was an error logging in. Please try again.");
-    }
+    });
 });
