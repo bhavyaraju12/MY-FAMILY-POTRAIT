@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         try {
+            // Check the users table
             let { data, error } = await database
                 .from('users')
                 .select()
@@ -25,20 +26,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (error) {
                 console.error("Error checking users table:", error);
+                alert("Error checking users table.");
+                return;
             }
 
             if (data && data.password === password) {
                 if (data.role === 'admin') {
                     alert("Login successful!");
                     window.location.href = "admin.html";
-                    return;
                 } else {
                     alert("Login successful!");
                     window.location.href = "db/d2.html";
-                    return;
                 }
+                return;
             }
 
+            // Check the doctors table if not found in users
             ({ data, error } = await database
                 .from('doctors')
                 .select()
@@ -46,12 +49,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 .single());
 
             if (error) {
-                throw error;
+                console.error("Error checking doctors table:", error);
+                alert("Error checking doctors table.");
+                return;
             }
 
             if (data && data.password === password) {
                 alert("Login successful!");
-                const doctorId = doctor.d_id;
+                const doctorId = data.d_id;
                 localStorage.setItem('doctorId', doctorId);
                 window.location.href = "dbdoc.html";
             } else {

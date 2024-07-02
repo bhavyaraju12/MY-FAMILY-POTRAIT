@@ -236,18 +236,18 @@
             // Add previous month's dates
             for (let i = firstDayIndex; i > 0; i--) {
                 const prevDate = new Date(currentYear, currentMonth, 0 - i + 1);
-                datesHTML += <span class="date inactive">${prevDate.getDate()}</span>;
+                datesHTML += `<span class="date inactive">${prevDate.getDate()}</span>`;
             }
             // Add current month's dates
             for (let i = 1; i <= totalDays; i++) {
                 const date = new Date(currentYear, currentMonth, i);
                 const activeClass = date.toDateString() === new Date().toDateString() ? 'active' : '';
-                datesHTML += <span class="date ${activeClass}" data-date="${date}">${i}</span>;
+                datesHTML += `<span class="date ${activeClass}" data-date="${date}">${i}</span>`;
             }
             // Add next month's dates
             for (let i = 1; i <= 6 - lastDayIndex; i++) {
                 const nextDate = new Date(currentYear, currentMonth + 1, i);
-                datesHTML += <span class="date inactive">${nextDate.getDate()}</span>;
+                datesHTML += `<span class="date inactive">${nextDate.getDate()}</span>`;
             }
 
             datesElement.innerHTML = datesHTML;
@@ -298,7 +298,7 @@
         });
 
         console.log('Leave Dates:', leaveDates);
-        alert(Leave Dates : ${leaveDates.join(', ')});
+        alert(`Leave Dates: ${leaveDates.join(', ')}`);
 
         try {
             const { data, error } = await database
