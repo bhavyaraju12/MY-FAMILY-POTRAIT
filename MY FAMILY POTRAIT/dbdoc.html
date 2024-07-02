@@ -5,26 +5,146 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor Dashboard | Medical History</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+        }
+        h1 {
+            text-align: center;
+            color: #72c02c;
+            margin-bottom: 20px;
+        }
+        .calendar {
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px black;
+            margin-bottom: 15px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+        }
+        .header button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            border-radius: 50%;
+            background: rgb(6, 56, 13);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            box-shadow: 0 0 4px black;
+            color: white;
+        }
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+        }
+        .day, .date {
+            text-align: center;
+            padding: 5px;
+            color: rgb(1, 40, 20);
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .dates {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+        }
+        .inactive {
+            color: rgba(9, 80, 15, 0.4);
+        }
+        .leave {
+            background: rgb(108, 4, 4);
+            color: white;
+            border-radius: 50%;
+        }
+        .available {
+            background: rgb(13, 2, 61);
+            color: white;
+            border-radius: 50%;
+        }
+        button[type="submit"] {
+            background: #72c02c;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .profile-pic {
+            width: 32px;
+            height: 32px;
+            background: gray;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .doctor-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .doctor-info p {
+            font-size: 1.25rem;
+            margin: 5px 0;
+        }
+    </style>
 </head>
 <body class="bg-gray-100">
     <div class="min-h-screen flex">
         <!-- Sidebar -->
         <aside class="w-64 bg-white shadow-md h-screen">
             <div class="p-4 border-b">
-                <h1 class="text-l">MY FAMILY POTRAIT</h1>
+                <h1 class="text-l">MY FAMILY PORTRAIT</h1>
             </div>
             <nav class="mt-4">
-                <a href="aboutdoc.html" class="block py-2.5 px-4 transition duration-200 hover:bg-green-600 hover:text-white" onclick="showSection('about')">About</a>
-                <a href="#patients" class="block py-2.5 px-4 transition duration-200 hover:bg-green-600 hover:text-white" onclick="showSection('patients')">Patients List</a>
+                <a href="javascript:void(0)" class="block py-2.5 px-4 transition duration-200 hover:bg-green-600 hover:text-white" onclick="showSection('about')">About</a>
+                <a href="javascript:void(0)" class="block py-2.5 px-4 transition duration-200 hover:bg-green-600 hover:text-white" onclick="showSection('patients')">Patients List</a>
+                <a href="javascript:void(0)" class="block py-2.5 px-4 transition duration-200 hover:bg-green-600 hover:text-white" onclick="showSection('appointments')">Appointments</a>
+                <a href="login.html" class="block py-2.5 px-4 transition duration-200 hover:bg-green-600 hover:text-white">Log Out</a>
             </nav>
         </aside>
 
         <!-- Main Content -->
         <main class="flex-1 p-6 bg-gray-100">
-            <section id="about" class="bg-white p-6 shadow mb-6">
-                <h2 class="text-xl mb-4" style="color: #72c02c;">ABOUT</h2>
-                <p>Welcome to the Doctor Dashboard. Here you can manage your patient information and view their medical histories.</p>
+            <section id="about" class="bg-white p-6 shadow mb-6 hidden">
+                <!-- About content will be dynamically loaded here -->
             </section>
+            
 
             <section id="patients" class="bg-white p-6 shadow hidden">
                 <h2 class="text-xl text-green-500 mb-4" style="color: #72c02c;">PATIENTS LIST</h2>
@@ -36,57 +156,172 @@
                             <th class="py-2 px-4 border-b">Medical History</th>
                         </tr>
                     </thead>
-                    <tbody id="patientsTable">
+                    <tbody id="usersTable">
                         <!-- Patients data will be injected here -->
                     </tbody>
                 </table>
             </section>
+
+            <section id="appointments" class="bg-white p-6 shadow hidden">
+                <h2 class="text-xl text-green-500 mb-4" style="color: #72c02c;">APPOINTMENTS</h2>
+                <div class="container">
+                    <h1>Doctor's Availability</h1>
+                    <div class="calendar">
+                        <div class="header">
+                            <button id="prevBtn">&lt;</button>
+                            <div class="monthYear" id="monthYear"></div>
+                            <button id="nextBtn">&gt;</button>
+                        </div>
+                        <div class="days">
+                            <div class="day">Mon</div>
+                            <div class="day">Tue</div>
+                            <div class="day">Wed</div>
+                            <div class="day">Thu</div>
+                            <div class="day">Fri</div>
+                            <div class="day">Sat</div>
+                            <div class="day">Sun</div>
+                        </div>
+                        <div class="dates" id="dates"></div>
+                    </div>
+                    <button type="submit" id="submitBtn">Save Availability</button>
+                </div>
+            </section>
+            
         </main>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script>
-        const supabaseUrl = 'https://<YOUR_SUPABASE_URL>';
-        const supabaseKey = '<YOUR_SUPABASE_ANON_KEY>';
-        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                const { data: patients, error } = await supabase
-                    .from('patients')
-                    .select('id, firstname, lastname, email, medical_history');
-
-                if (error) {
-                    throw error;
+        function showSection(sectionId) {
+            const sections = ['about', 'patients', 'appointments'];
+            sections.forEach(id => {
+                const section = document.getElementById(id);
+                if (id === sectionId) {
+                    section.classList.remove('hidden');
+                    if (sectionId === 'about') {
+                        loadAboutContent();
+                    }
+                } else {
+                    section.classList.add('hidden');
                 }
+            });
+        }
+      
 
-                const patientsTable = document.getElementById('patientsTable');
-                patients.forEach(patient => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td class="py-2 px-4 border-b">${patient.firstname} ${patient.lastname}</td>
-                        <td class="py-2 px-4 border-b">${patient.email}</td>
-                        <td class="py-2 px-4 border-b">${patient.medical_history}</td>
-                    `;
-                    patientsTable.appendChild(row);
-                });
-            } catch (error) {
-                console.error('Error fetching patients:', error.message);
+        // Calendar Script
+        document.addEventListener('DOMContentLoaded', () => {
+        const monthYearElement = document.getElementById('monthYear');
+        const datesElement = document.getElementById('dates');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const submitBtn = document.getElementById('submitBtn');
+
+        let currentDate = new Date();
+
+        const updateCalendar = () => {
+            const currentYear = currentDate.getFullYear();
+            const currentMonth = currentDate.getMonth();
+
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            const lastDay = new Date(currentYear, currentMonth + 1, 0);
+            const totalDays = lastDay.getDate();
+            const firstDayIndex = firstDay.getDay();
+            const lastDayIndex = lastDay.getDay();
+
+            const monthYearString = currentDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+            monthYearElement.textContent = monthYearString;
+
+            let datesHTML = '';
+
+            // Add previous month's dates
+            for (let i = firstDayIndex; i > 0; i--) {
+                const prevDate = new Date(currentYear, currentMonth, 0 - i + 1);
+                datesHTML += <span class="date inactive">${prevDate.getDate()}</span>;
             }
+            // Add current month's dates
+            for (let i = 1; i <= totalDays; i++) {
+                const date = new Date(currentYear, currentMonth, i);
+                const activeClass = date.toDateString() === new Date().toDateString() ? 'active' : '';
+                datesHTML += <span class="date ${activeClass}" data-date="${date}">${i}</span>;
+            }
+            // Add next month's dates
+            for (let i = 1; i <= 6 - lastDayIndex; i++) {
+                const nextDate = new Date(currentYear, currentMonth + 1, i);
+                datesHTML += <span class="date inactive">${nextDate.getDate()}</span>;
+            }
+
+            datesElement.innerHTML = datesHTML;
+
+            document.querySelectorAll('.date').forEach(dateElement => {
+                dateElement.addEventListener('click', () => {
+                    if (dateElement.classList.contains('leave')) {
+                        dateElement.classList.remove('leave');
+                        dateElement.classList.add('available');
+                    } else if (dateElement.classList.contains('available')) {
+                        dateElement.classList.remove('available');
+                        dateElement.classList.add('leave');
+                    } else {
+                        dateElement.classList.add('leave');
+                    }
+                });
+            });
+            
+        };
+
+        prevBtn.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            updateCalendar();
         });
 
-        function showSection(sectionId) {
-            const aboutSection = document.getElementById('about');
-            const patientsSection = document.getElementById('patients');
+        nextBtn.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            updateCalendar();
+        });
+        updateCalendar(); 
 
-            if (sectionId === 'about') {
-                aboutSection.classList.remove('hidden');
-                patientsSection.classList.add('hidden');
-            } else if (sectionId === 'patients') {
-                aboutSection.classList.add('hidden');
-                patientsSection.classList.remove('hidden');
-            }
+        submitBtn.addEventListener('click', async () => {
+        const leaveDates = [];
+        const doctorId = localStorage.getItem('doctorId');
+
+        if (!doctorId) {
+            alert('No doctor logged in.');
+            return;
         }
+
+        document.querySelectorAll('.date').forEach(dateElement => {
+            if (dateElement.classList.contains('leave')) {
+            const dateStr = dateElement.getAttribute('data-date');
+            const dateObj = new Date(dateStr);
+            const dateString = dateObj.toISOString().split('T')[0];
+            leaveDates.push(dateString);
+        }
+        });
+
+        console.log('Leave Dates:', leaveDates);
+        alert(Leave Dates : ${leaveDates.join(', ')});
+
+        try {
+            const { data, error } = await database
+                .from('doctors')
+                .update({ leaveDates: leaveDates })
+                .eq('d_id', doctorId);
+
+            if (error) {
+                throw error; 
+            }
+
+            alert('Leave dates saved successfully.');
+        } catch (error) {
+            console.error('Error saving leave dates:', error.message);
+            alert('Error saving leave dates. Please try again.');
+        }
+        updateCalendar(); // Initial call to display the calendar
+    });
+});
+
+
+
     </script>
+    <script src="script3.js"></script>
 </body>
 </html>

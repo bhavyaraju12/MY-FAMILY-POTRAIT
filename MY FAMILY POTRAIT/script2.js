@@ -51,6 +51,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (data && data.password === password) {
                 alert("Login successful!");
+                const doctorId = doctor.d_id;
+                localStorage.setItem('doctorId', doctorId);
                 window.location.href = "dbdoc.html";
             } else {
                 alert("Invalid email or password.");
