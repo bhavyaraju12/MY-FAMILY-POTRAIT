@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,30 +7,27 @@
    <script src="https://cdn.tailwindcss.com"></script>
    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
    
-	<!-- Web Fonts -->
-	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin">
+   <!-- Web Fonts -->
+   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin">
 
-	<!-- CSS Global Compulsory -->
-	<link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="assets/css/style.css">
+   <!-- CSS Global Compulsory -->
+   <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+   <link rel="stylesheet" href="assets/css/style.css">
 
-	<!-- CSS Header and Footer -->
-	<link rel="stylesheet" href="assets/css/header.css">
-	<link rel="stylesheet" href="assets/css/footer.css">
+   <!-- CSS Header and Footer -->
+   <link rel="stylesheet" href="assets/css/header.css">
+   <link rel="stylesheet" href="assets/css/footer.css">
 
-	<!-- CSS Implementing Plugins -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-	<link rel="stylesheet" href="assets/plugins/line-icons-pro/styles.css">
-	<link rel="stylesheet" href="assets/plugins/line-icons/line-icons.css">
-	<link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.min.css">
+   <!-- CSS Implementing Plugins -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+   <link rel="stylesheet" href="assets/plugins/line-icons-pro/styles.css">
+   <link rel="stylesheet" href="assets/plugins/line-icons/line-icons.css">
+   <link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.min.css">
 
-
-	<!-- CSS Customization -->
-	<link rel="stylesheet" href="assets/css/custom.css">
-     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600&subset=cyrillic,latin">
-  <link href="/dist/output.css" rel="stylesheet">
-
-
+   <!-- CSS Customization -->
+   <link rel="stylesheet" href="assets/css/custom.css">
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600&subset=cyrillic,latin">
+   <link href="/dist/output.css" rel="stylesheet">
 </head>
 
 <body class="bg-gray-100" style="background-color: #d7e2d1;">
@@ -53,8 +49,8 @@
       
       <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-white">
          <div class="p-4 border-b">
-            <h1 class="text-xl color-green"  style="color: #72c02c;">MY FAMILY POTRAIT</h1>
-        </div>
+            <h1 class="text-xl color-green" style="color: #72c02c;">MY FAMILY PORTRAIT</h1>
+         </div>
          <ul class="space-y-2 font-medium">
             <li>
                <a href="../form.html"
@@ -163,6 +159,43 @@
    </div>
 
    <script>
+      /// Check if userID is stored in localStorage
+const userID = localStorage.getItem('userID');
+
+if (userID) {
+   // Supabase credentials
+   const key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ia3BsbWZwZXJqdGVndWdjd3p6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTgxNzQzMDUsImV4cCI6MjAzMzc1MDMwNX0.u52UJNzNT3jEhLQCVfzyeqxSCVwlYgdT538pqDB9Ap0";
+   const url = "https://nbkplmfperjtegugcwzz.supabase.co";
+
+   // Fetch user details from Supabase
+   fetch(`${url}/user/${userID}`, {
+      method: 'GET',
+      headers: {
+         'Content-Type': 'application/json',
+         'Authorization': `Bearer ${key}`
+      }
+   })
+   .then(response => {
+      if (!response.ok) {
+         throw new Error('Network response was not ok');
+      }
+      return response.json();
+   })
+   .then(user => {
+      // Populate user details
+      document.getElementById('user-name').textContent = user.name;
+      document.getElementById('user-email').textContent = user.email;
+      // Add more fields as needed
+   })
+   .catch(error => {
+      console.error('Error fetching user data:', error);
+   });
+} else {
+   // Redirect to login page if userID is not found
+   window.location.href = 'login.html';
+}
+
+
       // Heart Rate Chart
       const heartRateCtx = document.getElementById('heartRateChart').getContext('2d');
       new Chart(heartRateCtx, {
@@ -233,5 +266,4 @@
       });
    </script>
 </body>
-
 </html>
