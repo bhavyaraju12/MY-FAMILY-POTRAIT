@@ -3,168 +3,227 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor's Appointment Booking</title>
-    <!-- Web Fonts -->
-		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin">
-
-		<!-- CSS Global Compulsory -->
-		<link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
-		<link rel="stylesheet" href="assets/css/style.css">
-
-		<!-- CSS Header and Footer -->
-		<link rel="stylesheet" href="assets/css/header.css">
-		<link rel="stylesheet" href="assets/css/footer.css">
-
-		<!-- CSS Implementing Plugins -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-		<link rel="stylesheet" href="assets/plugins/line-icons-pro/styles.css">
-		<link rel="stylesheet" href="assets/plugins/line-icons/line-icons.css">
-		<link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.min.css">
-		
-
-		<!-- CSS Customization -->
-		<link rel="stylesheet" href="assets/css/custom.css">
+    <title>Doctor's Availability</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0;
         }
         .container {
-            max-width: 1600px;
-            margin: 0 auto;
-            background: #fff;
+            background: white;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px gray;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
         }
         h1 {
             text-align: center;
-        }
-        .available-dates {
+            color: #72c02c;
             margin-bottom: 20px;
         }
-        .date {
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 5px;
+            color: #72c02c;
+        }
+        input, textarea {
+            margin-bottom: 15px;
             padding: 10px;
-            border: 1px solid #ddd;
-            margin-bottom: 10px;
-            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
         }
-        .date:hover {
-            background-color: #f1f1f1;
+        textarea {
+            resize: none;
         }
-        .form-group {
+        .calendar {
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px black;
             margin-bottom: 15px;
         }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
         }
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        .form-group button {
-            padding: 10px 15px;
+        .header button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border: none;
-            background:#72c02c;
-            color: #fff;
-            border-radius: 4px;
+            border-radius: 50%;
+            background: rgb(6, 56, 13);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            box-shadow: 0 0 4px black;
+            color: white;
+        }
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+        }
+        .day, .date {
+            text-align: center;
+            padding: 5px;
+            color: rgb(1, 40, 20);
+            font-weight: 500;
             cursor: pointer;
         }
-        .form-group button:hover {
+        .dates {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+        }
+        .inactive {
+            color: rgba(9, 80, 15, 0.4);
+        }
+        .selected {
+            background: rgb(13, 2, 61);
+            color: white;
+            border-radius: 50%;
+        }
+        button[type="submit"] {
             background: #72c02c;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .token {
+            margin-top: 15px;
+            text-align: center;
+            color: #72c02c;
+            font-size: 18px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="color-green">Schedule an Appointment</h1>
-        <div class="available-dates" id="available-dates"></div>
-        <form id="booking-form" style="display: none;">
-            <div class="form-group">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" required>
+        <h1>Doctor's Availability</h1>
+        <form id="appointmentForm">
+            <div class="calendar">
+                <div class="header">
+                    <button type="button" id="prevBtn">&lt;</button>
+                    <div class="monthYear" id="monthYear"></div>
+                    <button type="button" id="nextBtn">&gt;</button>
+                </div>
+                <div class="days">
+                    <div class="day">Mon</div>
+                    <div class="day">Tue</div>
+                    <div class="day">Wed</div>
+                    <div class="day">Thu</div>
+                    <div class="day">Fri</div>
+                    <div class="day">Sat</div>
+                    <div class="day">Sun</div>
+                </div>
+                <div class="dates" id="dates"></div>
             </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="reason">Reason for Visit</label>
-                <textarea id="reason" name="reason" rows="4" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="meet-option">Online</label>
-                <select id="meet-option" name="meet-option">
-                    <option value="no">No</option>
-                    <option value="yes">Yes</option>
-                </select>
-            </div>
-            <input type="hidden" id="selected-date" name="date">
-            <div class="form-group">
-                <button type="submit" class="bg-custom">Book Appointment</button>
-            </div>
+            <button type="submit" id="submitBtn">Book Appointment</button>
         </form>
-        <div id="confirmation" style="display: none;">
-            <h2>Appointment Confirmed</h2>
-            <p>Your token number is: <span id="token-number"></span></p>
-            <p id="meet-link" style="display: none;">Google Meet Link: <a href="#" target="_blank" id="meet-url"></a></p>
-        </div>
+        <div class="token" id="token"></div>
     </div>
-
     <script>
-        // Example available dates
-        const availableDates = [
-            { date: '2024-06-24T10:00:00', display: 'June 29, 2024 - 10:00 AM' },
-            { date: '2024-06-25T14:00:00', display: 'July 6, 2024 - 02:00 PM' },
-            { date: '2024-06-26T09:00:00', display: 'July 13, 2024 - 09:00 AM' },
-            { date: '2024-06-26T09:00:00', display: 'July 20, 2024 - 09:00 AM' },
-            { date: '2024-06-26T09:00:00', display: 'July 27, 2024 - 09:00 AM' },
-        ];
+        const monthYearElement = document.getElementById('monthYear');
+        const datesElement = document.getElementById('dates');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const submitBtn = document.getElementById('submitBtn');
 
-        // Populate available dates
-        const datesContainer = document.getElementById('available-dates');
-        availableDates.forEach(({ date, display }) => {
-            const dateElement = document.createElement('div');
-            dateElement.classList.add('date');
-            dateElement.innerText = display;
-            dateElement.addEventListener('click', () => selectDate(date));
-            datesContainer.appendChild(dateElement);
+        let currentDate = new Date();
+
+        const updateCalendar = () => {
+            const currentYear = currentDate.getFullYear();
+            const currentMonth = currentDate.getMonth();
+
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            const lastDay = new Date(currentYear, currentMonth + 1, 0);
+            const totalDays = lastDay.getDate();
+            const firstDayIndex = firstDay.getDay();
+            const lastDayIndex = lastDay.getDay();
+
+            const monthYearString = currentDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+            monthYearElement.textContent = monthYearString;
+
+            let datesHTML = '';
+
+            // Add previous month's dates
+            for (let i = firstDayIndex; i > 0; i--) {
+                const prevDate = new Date(currentYear, currentMonth, 0 - i + 1);
+                datesHTML += `<span class="date inactive">${prevDate.getDate()}</span>`;
+            }
+            // Add current month's dates
+            for (let i = 1; i <= totalDays; i++) {
+                const date = new Date(currentYear, currentMonth, i);
+                const activeClass = date.toDateString() === new Date().toDateString() ? 'active' : '';
+                datesHTML += `<span class="date ${activeClass}" data-date="${date}">${i}</span>`;
+            }
+            // Add next month's dates
+            for (let i = 1; i <= 6 - lastDayIndex; i++) {
+                const nextDate = new Date(currentYear, currentMonth + 1, i);
+                datesHTML += `<span class="date inactive">${nextDate.getDate()}</span>`;
+            }
+
+            datesElement.innerHTML = datesHTML;
+
+            document.querySelectorAll('.date').forEach(dateElement => {
+                dateElement.addEventListener('click', () => {
+                    if (dateElement.classList.contains('leave')) {
+                        alert("This date is not available for booking.");
+                    } else {
+                        document.querySelectorAll('.date.selected').forEach(el => el.classList.remove('selected'));
+                        dateElement.classList.add('selected');
+                    }
+                });
+            });
+        };
+
+        prevBtn.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            updateCalendar();
+        });
+        nextBtn.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            updateCalendar();
         });
 
-        function selectDate(date) {
-            document.getElementById('selected-date').value = date;
-            document.getElementById('booking-form').style.display = 'block';
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCalendar();
 
-        // On form submit
-        document.getElementById('booking-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const reason = document.getElementById('reason').value;
-            const date = document.getElementById('selected-date').value;
-            const meetOption = document.getElementById('meet-option').value;
+            const form = document.getElementById('appointmentForm');
+            const tokenElement = document.getElementById('token');
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
 
-            // Generate a token number
-            const tokenNumber = Math.floor(Math.random() * 10000) + 1;
-
-            // Display confirmation
-            document.getElementById('booking-form').style.display = 'none'
-            document.getElementById('confirmation').style.display = 'block';
-            document.getElementById('token-number').innerText = tokenNumber;
-
-            // Generate Google Meet link if selected
-            if (meetOption === 'yes') {
-                const meetLink = https //meet.google.com/new;
-                document.getElementById('meet-link').style.display = 'block';
-                document.getElementById('meet-url').href = meetLink;
-                document.getElementById('meet-url').innerText = meetLink;
-            }
+                const token = Math.floor(Math.random() * 1000);
+                tokenElement.textContent = `Your token number is: ${token}`;
+                confirm("Your appointment has been booked ");
+            });
         });
     </script>
-</body>
+</body >
 </html>

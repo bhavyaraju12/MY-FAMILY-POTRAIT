@@ -1,5 +1,4 @@
-const key =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ia3BsbWZwZXJqdGVndWdjd3p6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTgxNzQzMDUsImV4cCI6MjAzMzc1MDMwNX0.u52UJNzNT3jEhLQCVfzyeqxSCVwlYgdT538pqDB9Ap0";
+const key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ia3BsbWZwZXJqdGVndWdjd3p6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTgxNzQzMDUsImV4cCI6MjAzMzc1MDMwNX0.u52UJNzNT3jEhLQCVfzyeqxSCVwlYgdT538pqDB9Ap0";
 const url = "https://nbkplmfperjtegugcwzz.supabase.co";
 const database = supabase.createClient(url, key);
 
@@ -18,47 +17,40 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     try {
-      // Check the users table
-      let { data, error } = await database
+      let { data: userData, error: userError } = await database
         .from("users")
         .select()
         .eq("email", email)
         .single();
 
-      if (error) {
-        console.error("Error checking users table:", error);
+      if (userError && userError.code !== 'PGRST116') {
+        console.error("Error checking users table:", userError);
         alert("Error checking users table.");
         return;
       }
 
-      if (data && data.password === password) {
-        if (data.role === "admin") {
-          alert("Login successful!");
-          window.location.href = "admin.html";
-        } else {
-          alert("Login successful!");
-          window.location.href = "db/d2.html";
-        }
+      if (userData && userData.password === password) {
+        alert("Login successful!");
+        const redirectUrl = userData.role === "admin" ? "admin.html" : "db/d2.html";
+        window.location.href = redirectUrl;
         return;
       }
 
-      // Check the doctors table if not found in users
-      ({ data, error } = await database
+      let { data: doctorData, error: doctorError } = await database
         .from("doctors")
         .select()
         .eq("email", email)
-        .single());
+        .single();
 
-      if (error) {
-        console.error("Error checking doctors table:", error);
+      if (doctorError && doctorError.code !== 'PGRST116') {
+        console.error("Error checking doctors table:", doctorError);
         alert("Error checking doctors table.");
         return;
       }
 
-      if (data && data.password === password) {
+      if (doctorData && doctorData.password === password) {
         alert("Login successful!");
-        const doctorId = data.d_id;
-        localStorage.setItem("doctorId", doctorId);
+        localStorage.setItem("doctorId", doctorData.d_id);
         window.location.href = "dbdoc.html";
       } else {
         alert("Invalid email or password.");
