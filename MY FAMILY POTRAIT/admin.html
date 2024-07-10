@@ -5,6 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Manage Doctors</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <style>
+        button {
+            position: relative;
+            background-color: rgb(230, 34, 77);
+            border-radius: 5px;
+            box-shadow: rgb(121, 18, 55) 0px 4px 0px 0px;
+            background-repeat: no-repeat;
+            margin-top: 10px;
+            cursor: pointer;
+            box-sizing: border-box;
+            width: 154px;
+            height: 40px;
+            color: #fff;
+            border: none;
+            font-size: 20px;
+            transition: all 0.3s ease-in-out;
+            z-index: 1;
+            overflow: hidden;
+            margin-left: 950px;
+        }
+
+        button::before {
+            content: "";
+            background-color: rgb(248, 50, 93);
+            width: 0;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            transition: width 700ms ease-in-out;
+            display: inline-block;
+        }
+
+        button:hover::before {
+            width: 100%;
+        }
+    </style>
 </head>
 <body class="bg-gray-100 font-sans leading-normal tracking-normal">
 
@@ -14,52 +53,47 @@
             <h1 class="text-2xl font-bold mb-4 text-center">Admin Dashboard</h1>
             <nav>
                 <ul class="space-y-4">
-                    <li><a href="#" data-target="approveDoctors" class="block py-2 px-4 rounded hover:bg-gray-700">Approve Doctors</a></li>
                     <li><a href="#" data-target="doctorList" class="block py-2 px-4 rounded hover:bg-gray-700">Doctor List</a></li>
+                    <li><a href="#" data-target="approvedDoctors" class="block py-2 px-4 rounded hover:bg-gray-700">Approved Doctors</a></li>
                 </ul>
             </nav>
         </div>
 
         <!-- Main Content -->
         <div class="w-3/4 p-6">
-            <section id="approveDoctors" class="mb-6">
-                <h2 class="text-xl font-semibold border-b-2 border-gray-300 pb-2 mb-4">Approve Doctors</h2>
-                <form id="doctorForm" class="space-y-4">
-                    <div>
-                        <label for="name" class="block text-gray-700">Name:</label>
-                        <input type="text" id="name" name="name" class="w-full mt-1 px-4 py-2 border rounded-lg" required>
-                    </div>
-                    <div>
-                        <label for="specialty" class="block text-gray-700">Specialty:</label>
-                        <input type="text" id="specialty" name="specialty" class="w-full mt-1 px-4 py-2 border rounded-lg" required>
-                    </div>
-                    <div>
-                        <label for="email" class="block text-gray-700">Email:</label>
-                        <input type="email" id="email" name="email" class="w-full mt-1 px-4 py-2 border rounded-lg" required>
-                    </div>
-                    <div>
-                        <label for="phone" class="block text-gray-700">Phone:</label>
-                        <input type="tel" id="phone" name="phone" class="w-full mt-1 px-4 py-2 border rounded-lg" required>
-                    </div>
-                    <button type="submit" style="background-color: #72c02c;" class="  bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Approve Doctor</button>
-                </form>
-            </section>
-
             <section id="doctorList" class="hidden">
                 <h2 class="text-xl font-semibold border-b-2 border-gray-300 pb-2 mb-4">Doctor List</h2>
                 <table class="min-w-full bg-white">
                     <thead>
                         <tr class="w-full bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                            <th class="py-3 px-6 text-left">ID</th>
+                            <th class="py-3 px-6 text-left">License Number</th>
                             <th class="py-3 px-6 text-left">Name</th>
                             <th class="py-3 px-6 text-left">Specialty</th>
                             <th class="py-3 px-6 text-left">Email</th>
-                            <th class="py-3 px-6 text-left">Phone</th>
-                            <th class="py-3 px-6 text-left">Actions</th>
+                            <th class="py-3 px-6 text-left">Approval</th>
                         </tr>
                     </thead>
                     <tbody id="doctorTableBody" class="text-gray-700">
                         <!-- Doctor records will be populated here -->
+                    </tbody>
+                </table>
+                <button type="submit" id="approveButton">Approve</button>
+            </section>
+
+            <!-- Approved Doctors Section -->
+            <section id="approvedDoctors" class="hidden">
+                <h2 class="text-xl font-semibold border-b-2 border-gray-300 pb-2 mb-4">Approved Doctors</h2>
+                <table class="min-w-full bg-white">
+                    <thead>
+                        <tr class="w-full bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                            <th class="py-3 px-6 text-left">License Number</th>
+                            <th class="py-3 px-6 text-left">Name</th>
+                            <th class="py-3 px-6 text-left">Specialty</th>
+                            <th class="py-3 px-6 text-left">Email</th>
+                        </tr>
+                    </thead>
+                    <tbody id="approvedDoctorTableBody" class="text-gray-700">
+                        <!-- Approved doctor records will be populated here -->
                     </tbody>
                 </table>
             </section>
@@ -67,72 +101,116 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const doctorForm = document.getElementById('doctorForm');
-            const doctorTableBody = document.getElementById('doctorTableBody');
+        const key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ia3BsbWZwZXJqdGVndWdjd3p6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTgxNzQzMDUsImV4cCI6MjAzMzc1MDMwNX0.u52UJNzNT3jEhLQCVfzyeqxSCVwlYgdT538pqDB9Ap0";
+        const url = "https://nbkplmfperjtegugcwzz.supabase.co";
+        const database = supabase.createClient(url, key);
 
-            doctorForm.addEventListener('submit', function(event) {
-                event.preventDefault();
+        document.addEventListener('DOMContentLoaded', async () => {
+            loadDoctors();
+            loadApprovedDoctors();
 
-                const formData = new FormData(doctorForm);
-                const doctorData = {
-                    id: Date.now(),
-                    name: formData.get('name'),
-                    specialty: formData.get('specialty'),
-                    email: formData.get('email'),
-                    phone: formData.get('phone')
-                };
+            document.getElementById('approveButton').addEventListener('click', async () => {
+                const checkboxes = document.querySelectorAll('.doctor-checkbox:checked');
+                const selectedDoctors = [];
 
-                addDoctorToTable(doctorData);
-                doctorForm.reset();
+                checkboxes.forEach(checkbox => {
+                    const row = checkbox.closest('tr');
+                    const doctorId = row.dataset.d_id;
+                    selectedDoctors.push(doctorId);
+                });
+
+                if (selectedDoctors.length === 0) {
+                    alert('No doctors selected for approval.');
+                    return;
+                }
+
+                try {
+                    const { data, error } = await database
+                        .from('doctors')
+                        .update({ approve: true }) 
+                        .in('d_id', selectedDoctors);
+
+                    if (error) {
+                        console.error('Error approving doctors:', error);
+                        alert('Error approving doctors.');
+                    } else {
+                        alert('Selected doctors have been approved successfully.');
+                        loadDoctors();
+                        loadApprovedDoctors();
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('An unexpected error occurred.');
+                }
             });
 
-            function addDoctorToTable(doctor) {
+            function addDoctorToTable(doctor, tableBody, includeCheckbox) {
                 const row = document.createElement('tr');
-                row.id = `doctor-${doctor.id}`;
-
+                row.dataset.d_id = doctor.d_id;
                 row.innerHTML = `
-                    <td class="py-3 px-6">${doctor.id}</td>
-                    <td class="py-3 px-6">${doctor.name}</td>
-                    <td class="py-3 px-6">${doctor.specialty}</td>
-                    <td class="py-3 px-6">${doctor.email}</td>
-                    <td class="py-3 px-6">${doctor.phone}</td>
-                    <td class="py-3 px-6">
-                        
-                        <button onclick="deleteDoctor(${doctor.id})" class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600">Delete</button>
-                    </td>
+                    <td class="py-2 px-8 border-b">${doctor.l_no}</td>
+                    <td class="py-2 px-8 border-b">Dr.${doctor.firstname} ${doctor.lastname}</td>
+                    <td class="py-2 px-8 border-b">${doctor.spec}</td>
+                    <td class="py-2 px-8 border-b">${doctor.email}</td>
+                    ${includeCheckbox ? '<td class="py-2 px-8 border-b"><input type="checkbox" class="doctor-checkbox"></td>' : ''}
                 `;
-
-                doctorTableBody.appendChild(row);
+                tableBody.appendChild(row);
             }
 
-            window.editDoctor = function(id) {
-                alert(`Edit doctor with ID: ${id}`);
-                // Logic to edit doctor
-                const row = document.getElementById(`doctor-${id}`);
-                // Fetch current data and allow editing
-                // You can add a form overlay or inline editing options
-            };
+            async function loadDoctors() {
+                try {
+                    const { data: doctors, error } = await database
+                        .from('doctors')
+                        .select('d_id, l_no, firstname, lastname, spec, email')
+                        .is('approve', false);
 
-            window.deleteDoctor = function(id) {
-                const row = document.getElementById(`doctor-${id}`);
-                if (row) {
-                    row.remove();
-                }
-            };
+                    if (error) {
+                        throw error;
+                    }
 
-            // Navigation logic
-            document.querySelectorAll('nav a').forEach(navLink => {
-                navLink.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    const targetId = this.getAttribute('data-target');
-                    document.querySelectorAll('section').forEach(section => {
-                        if (section.id === targetId) {
-                            section.classList.remove('hidden');
-                        } else {
-                            section.classList.add('hidden');
-                        }
+                    const doctorTableBody = document.getElementById('doctorTableBody');
+                    doctorTableBody.innerHTML = '';
+                    doctors.forEach(doctor => {
+                        addDoctorToTable(doctor, doctorTableBody, true);
                     });
+                } catch (error) {
+                    console.error('Error fetching doctors:', error.message);
+                }
+            }
+
+            async function loadApprovedDoctors() {
+                try {
+                    const { data: approvedDoctors, error } = await database
+                        .from('doctors')
+                        .select('d_id, l_no, firstname, lastname, spec, email')
+                        .eq('approve', true);
+
+                    if (error) {
+                        throw error;
+                    }
+
+                    const approvedDoctorTableBody = document.getElementById('approvedDoctorTableBody');
+                    approvedDoctorTableBody.innerHTML = '';
+                    approvedDoctors.forEach(doctor => {
+                        addDoctorToTable(doctor, approvedDoctorTableBody, false);
+                    });
+                } catch (error) {
+                    console.error('Error fetching approved doctors:', error.message);
+                }
+            }
+        });
+
+        // Navigation logic
+        document.querySelectorAll('nav a').forEach(navLink => {
+            navLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                const targetId = this.getAttribute('data-target');
+                document.querySelectorAll('section').forEach(section => {
+                    if (section.id === targetId) {
+                        section.classList.remove('hidden');
+                    } else {
+                        section.classList.add('hidden');
+                    }
                 });
             });
         });

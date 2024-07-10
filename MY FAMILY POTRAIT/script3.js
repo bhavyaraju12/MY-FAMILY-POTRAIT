@@ -42,7 +42,7 @@ async function loadAboutContent() {
         `;
     } catch (error) {
         console.error('Error fetching doctor information:', error.message);
-        aboutSection.innerHTML = <p class="text-center text-red-500">Error fetching doctor information: ${error.message}</p>;
+        aboutSection.innerHTML = `<p class="text-center text-red-500">Error fetching doctor information: ${error.message}</p>`;
     }
 }
 
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         usersTable.innerHTML = '';
         users.forEach(user => {
             const row = document.createElement('tr');
-            const dashboardLink = http://127.0.0.1:5500/dashboard.html${user.userid};
+            const dashboardLink = `http://127.0.0.1:5500/dashboard.html${user.userid}`;
             row.innerHTML = `
                 <td class="py-2 px-8 border-b">${user.firstname} ${user.lastname}</td>
                 <td class="py-2 px-8 border-b">${user.email}</td>
@@ -80,3 +80,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Error fetching users:', error.message);
     }
 });
+
+
+

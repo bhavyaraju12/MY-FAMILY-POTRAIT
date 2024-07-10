@@ -2,64 +2,62 @@ const key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZi
 const url = "https://nbkplmfperjtegugcwzz.supabase.co";
 const database = supabase.createClient(url, key);
 
-document.addEventListener('DOMContentLoaded', function() {
-    const loginForm = document.getElementById('form_submit');
+document.addEventListener("DOMContentLoaded", function () {
+  const loginForm = document.getElementById("form_submit");
 
-    loginForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
+  loginForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-        if (!email || !password) {
-            alert("All fields must be filled out!");
-            return;
-        }
+    if (!email || !password) {
+      alert("All fields must be filled out!");
+      return;
+    }
 
-        try {
-            let { data, error } = await database
-                .from('users')
-                .select()
-                .eq('email', email)
-                .single();
+    try {
+      let { data: userData, error: userError } = await database
+        .from("users")
+        .select()
+        .eq("email", email)
+        .single();
 
-            if (error) {
-                console.error("Error checking users table:", error);
-            }
+      if (userError && userError.code !== 'PGRST116') {
+        console.error("Error checking users table:", userError);
+        alert("Error checking users table.");
+        return;
+      }
 
-            if (data && data.password === password) {
-                if (data.role === 'admin') {
-                    alert("Login successful!");
-                    window.location.href = "admin.html";
-                    return;
-                } else {
-                    alert("Login successful!");
-                    window.location.href = "db/d2.html";
-                    return;
-                }
-            }
+      if (userData && userData.password === password) {
+        alert("Login successful!");
+        const redirectUrl = userData.role === "admin" ? "admin.html" : "db/d2.html";
+        window.location.href = redirectUrl;
+        return;
+      }
 
-            ({ data, error } = await database
-                .from('doctors')
-                .select()
-                .eq('email', email)
-                .single());
+      let { data: doctorData, error: doctorError } = await database
+        .from("doctors")
+        .select()
+        .eq("email", email)
+        .single();
 
-            if (error) {
-                throw error;
-            }
+      if (doctorError && doctorError.code !== 'PGRST116') {
+        console.error("Error checking doctors table:", doctorError);
+        alert("Error checking doctors table.");
+        return;
+      }
 
-            if (data && data.password === password) {
-                alert("Login successful!");
-                const doctorId = doctor.d_id;
-                localStorage.setItem('doctorId', doctorId);
-                window.location.href = "dbdoc.html";
-            } else {
-                alert("Invalid email or password.");
-            }
-        } catch (error) {
-            console.error("Error logging in:", error);
-            alert("There was an error logging in. Please try again.");
-        }
-    });
+      if (doctorData && doctorData.password === password) {
+        alert("Login successful!");
+        localStorage.setItem("doctorId", doctorData.d_id);
+        window.location.href = "dbdoc.html";
+      } else {
+        alert("Invalid email or password.");
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+      alert("There was an error logging in. Please try again.");
+    }
+  });
 });
