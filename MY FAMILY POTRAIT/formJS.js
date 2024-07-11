@@ -45,6 +45,7 @@ form.addEventListener("submit", async (event) => {
         throw getUrlError;
       }
 
+      console.log(publicURL);
       photoUrl = publicURL;
     } catch (error) {
       console.error("Error uploading photo:", error.message);
@@ -86,7 +87,7 @@ form.addEventListener("submit", async (event) => {
           medical_conditions,
           twin,
           adopted,
-          photo_url: photoUrl,
+          photo_url: photoUrl.publicUrl,
           user_id: userID, // Associate user ID with patient form
         },
       ])
