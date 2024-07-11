@@ -1,5 +1,4 @@
-const key =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ia3BsbWZwZXJqdGVndWdjd3p6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTgxNzQzMDUsImV4cCI6MjAzMzc1MDMwNX0.u52UJNzNT3jEhLQCVfzyeqxSCVwlYgdT538pqDB9Ap0";
+const key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ia3BsbWZwZXJqdGVndWdjd3p6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTgxNzQzMDUsImV4cCI6MjAzMzc1MDMwNX0.u52UJNzNT3jEhLQCVfzyeqxSCVwlYgdT538pqDB9Ap0";
 const url = "https://nbkplmfperjtegugcwzz.supabase.co";
 const database = supabase.createClient(url, key);
 
@@ -8,6 +7,7 @@ const form = document.getElementById("medical-form");
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
+  const userID = localStorage.getItem("userID");
   const name = document.getElementById("name").value;
   const email = document.getElementById("email").value;
   const dob = document.getElementById("dob").value;
@@ -15,13 +15,9 @@ form.addEventListener("submit", async (event) => {
   const height = document.getElementById("height").value;
   const weight = document.getElementById("weight").value;
   const blood_type = document.getElementById("blood_type").value;
-  const allergies = Array.from(
-    document.getElementById("allergies").selectedOptions
-  ).map((option) => option.value);
+  const allergies = Array.from(document.getElementById("allergies").selectedOptions).map((option) => option.value);
   const medications = document.getElementById("medications").value;
-  const medical_conditions = Array.from(
-    document.getElementById("medical_conditions").selectedOptions
-  ).map((option) => option.value);
+  const medical_conditions = Array.from(document.getElementById("medical_conditions").selectedOptions).map((option) => option.value);
   const twin = document.getElementById("twin").value;
   const adopted = document.getElementById("adopted").value;
   const photo = document.getElementById("photo").files[0];
@@ -31,33 +27,23 @@ form.addEventListener("submit", async (event) => {
   if (photo) {
     try {
       const timestamp = new Date().toISOString().replace(/[:.-]/g, ""); // Generates a unique timestamp and removes special characters
-      const customPhotoName = encodeURIComponent(
-        `${name}_${timestamp}.${photo.name.split(".").pop()}`
-      ); // Creates and encodes the custom file name
+      const customPhotoName = encodeURIComponent(`${name}_${timestamp}.${photo.name.split(".").pop()}`); // Creates and encodes the custom file name
 
-      console.log("custom name : " + customPhotoName);
-      const { data, error } = await database.storage
-        .from("Photo")
-        .upload(`public/${customPhotoName}`, photo, {
-          cacheControl: "3600",
-          upsert: true, // Allow upserting to handle existing files
-        });
+      const { data, error } = await database.storage.from("Photo").upload(`public/${customPhotoName}`, photo, {
+        cacheControl: "3600",
+        upsert: true, // Allow upserting to handle existing files
+      });
 
       if (error) {
-        console.log("error in uploading image : " + error);
+        throw error;
       }
 
-      console.log("Upload data:", data); // Log the upload data
       // Get the public URL of the uploaded file
-      const { data:publicURL, error: getUrlError } = await database.storage
-        .from("Photo")
-        .getPublicUrl(data.path);
+      const { data: publicURL, error: getUrlError } = await database.storage.from("Photo").getPublicUrl(data.path);
 
       if (getUrlError) {
-        console.log(getUrlError);
+        throw getUrlError;
       }
-
-      console.log("Public URL:", publicURL); // Log the public URL
 
       photoUrl = publicURL;
     } catch (error) {
@@ -66,7 +52,6 @@ form.addEventListener("submit", async (event) => {
       return;
     }
   }
-  console.log("Final photo URL:", photoUrl);
 
   // Collect relative's data
   const relatives = [];
@@ -76,18 +61,15 @@ form.addEventListener("submit", async (event) => {
       relationship: relativeSection.querySelector("input[id='r_rel']").value,
       height: relativeSection.querySelector("input[id='r_he']").value,
       weight: relativeSection.querySelector("input[id='r_wt']").value,
-      medical_conditions: Array.from(
-        relativeSection.querySelector("select[id='r_mc']").selectedOptions
-      ).map((option) => option.value),
+      medical_conditions: Array.from(relativeSection.querySelector("select[id='r_mc']").selectedOptions).map((option) => option.value),
       age: relativeSection.querySelector("input[id='r_age']").value,
       photo: relativeSection.querySelector("input[id='r_image']").files[0],
     };
     relatives.push(relative);
   });
-  console.log(relatives);
 
   try {
-    // Insert patient data and get the inserted ID
+    // Insert patient data and associate with user ID
     const { data: patientData, error: patientError } = await database
       .from("Patient Form")
       .insert([
@@ -105,6 +87,7 @@ form.addEventListener("submit", async (event) => {
           twin,
           adopted,
           photo_url: photoUrl,
+          user_id: userID, // Associate user ID with patient form
         },
       ])
       .select(); // Add .select() to return the inserted data
@@ -119,44 +102,29 @@ form.addEventListener("submit", async (event) => {
 
     const patientId = patientData[0].id; // Assuming the returned data contains the inserted row
 
-    console.log(patientData);
-
     // Insert relatives data
     for (const relative of relatives) {
       let relativePhotoUrl = null;
       if (relative.photo) {
         try {
           const timestamp = new Date().toISOString().replace(/[:.-]/g, ""); // Generates a unique timestamp and removes special characters
-          const customRelativePhotoName = encodeURIComponent(
-            `${relative.name}_${timestamp}.${relative.photo.name
-              .split(".")
-              .pop()}`
-          ); // Creates and encodes the custom file name for relative
+          const customRelativePhotoName = encodeURIComponent(`${relative.name}_${timestamp}.${relative.photo.name.split(".").pop()}`); // Creates and encodes the custom file name for relative
 
-          const { data: uploadData, error: uploadError } =
-            await database.storage
-              .from("Photo")
-              .upload(`public/${customRelativePhotoName}`, relative.photo, {
-                cacheControl: "3600",
-                upsert: true, // Allow upserting to handle existing files
-              });
+          const { data: uploadData, error: uploadError } = await database.storage.from("Photo").upload(`public/${customRelativePhotoName}`, relative.photo, {
+            cacheControl: "3600",
+            upsert: true, // Allow upserting to handle existing files
+          });
 
           if (uploadError) {
             throw uploadError;
           }
 
-          console.log("Relative upload data:", uploadData); // Log the upload data for relatives
-
-          const { data: relativePublicURL, error: getRelativeUrlError } =
-            database.storage
-              .from("Photo")
-              .getPublicUrl(`public/${customRelativePhotoName}`);
+          // Get the public URL of the uploaded file for relatives
+          const { data: relativePublicURL, error: getRelativeUrlError } = await database.storage.from("Photo").getPublicUrl(`public/${customRelativePhotoName}`);
 
           if (getRelativeUrlError) {
             throw getRelativeUrlError;
           }
-
-          console.log("Relative public URL:", relativePublicURL); // Log the public URL for relatives
 
           relativePhotoUrl = relativePublicURL;
         } catch (error) {
@@ -166,19 +134,16 @@ form.addEventListener("submit", async (event) => {
         }
       }
 
-      const { data: relativeData, error: relativeError } = await database
-        .from("relatives")
-        .insert({
-          name: relative.name,
-          relationship: relative.relationship,
-          height: relative.height,
-          weight: relative.weight,
-          medical_conditions: relative.medical_conditions,
-          age: relative.age,
-          photo_url: relativePhotoUrl,
-          patient_id: patientId, // Use the patient's ID as the foreign key
-        })
-        .select(); // Add .select() to return the inserted data
+      const { data: relativeData, error: relativeError } = await database.from("relatives").insert({
+        name: relative.name,
+        relationship: relative.relationship,
+        height: relative.height,
+        weight: relative.weight,
+        medical_conditions: relative.medical_conditions,
+        age: relative.age,
+        photo_url: relativePhotoUrl,
+        patient_id: patientId, // Use the patient's ID as the foreign key
+      }).select(); // Add .select() to return the inserted data
 
       if (relativeError) {
         throw relativeError;
@@ -187,8 +152,6 @@ form.addEventListener("submit", async (event) => {
       if (!relativeData || relativeData.length === 0) {
         throw new Error("Relative data insertion failed");
       }
-
-      console.log(relativeData);
     }
 
     alert("Form submitted successfully!");
@@ -201,9 +164,7 @@ form.addEventListener("submit", async (event) => {
 });
 
 function addRelative() {
-  const template = document
-    .getElementById("relative-template")
-    .content.cloneNode(true);
+  const template = document.getElementById("relative-template").content.cloneNode(true);
   template.querySelector(".relative-section").style.display = "block";
   document.getElementById("relatives-container").appendChild(template);
 }

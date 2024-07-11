@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (userData && userData.password === password) {
         alert("Login successful!");
+        localStorage.setItem("userID",userData.userid)
         const redirectUrl = userData.role === "admin" ? "admin.html" : "db/d2.html";
         window.location.href = redirectUrl;
         return;

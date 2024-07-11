@@ -4,8 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor's Appointment Booking</title>
+    <!-- Web Fonts -->
+		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin">
+
+		<!-- CSS Global Compulsory -->
+		<link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="assets/css/style.css">
+
+		<!-- CSS Header and Footer -->
+		<link rel="stylesheet" href="assets/css/header.css">
+		<link rel="stylesheet" href="assets/css/footer.css">
+
+		<!-- CSS Implementing Plugins -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+		<link rel="stylesheet" href="assets/plugins/line-icons-pro/styles.css">
+		<link rel="stylesheet" href="assets/plugins/line-icons/line-icons.css">
+		<link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.min.css">
+		
+
+		<!-- CSS Customization -->
+		<link rel="stylesheet" href="assets/css/custom.css">
     <style>
         body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             padding: 20px;
@@ -15,6 +38,8 @@
             margin: 0 auto;
             background: #fff;
             padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px gray;
             border-radius: 8px;
             box-shadow: 0 0 10px gray;
         }
@@ -29,6 +54,33 @@
             border: 1px solid #ddd;
             margin-bottom: 10px;
             cursor: pointer;
+        }
+        .date:hover {
+            background-color: #f1f1f1;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form-group button {
+            padding: 10px 15px;
+            border: none;
+            background:#72c02c;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background: #72c02c;
         }
         .date:hover {
             background-color: #f1f1f1;
@@ -101,19 +153,34 @@ button:active {
         <h1 class="color-green">Schedule an Appointment</h1>
         <div class="available-dates" id="available-dates"></div>
         <form id="booking-form" style="display: none;">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="reason">Reason for Visit</label>
+                <textarea id="reason" name="reason" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="meet-option">Online</label>
+                <select id="meet-option" name="meet-option">
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                </select>
+            </div>
             <input type="hidden" id="selected-date" name="date">
             <div class="form-group">
-                <button type="submit">
-                    <span class="transition"></span>
-                    <span class="gradient"></span>
-                    <span class="label">Book Appointment</span>
-                  </button>
-                  
+                <button type="submit" class="bg-custom">Book Appointment</button>
             </div>
         </form>
         <div id="confirmation" style="display: none;">
             <h2>Appointment Confirmed</h2>
             <p>Your token number is: <span id="token-number"></span></p>
+            <p id="meet-link" style="display: none;">Google Meet Link: <a href="#" target="_blank" id="meet-url"></a></p>
         </div>
     </div>
 
