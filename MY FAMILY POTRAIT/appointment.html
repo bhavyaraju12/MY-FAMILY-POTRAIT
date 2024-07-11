@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <style>
+        /* Add any custom styles here if needed */
+    </style>
+</head>
+<body>
+    <!-- Main Content -->
+    <div class="w-full p-6">
+        <section id="doctorsList">
+            <h2 class="text-xl font-semibold border-b-2 border-gray-300 pb-2 mb-4">Doctor List</h2>
+            <table class="min-w-full bg-white">
+                <thead>
+                    <tr class="w-full bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                        <th class="py-3 px-6 text-left">License Number</th>
+                        <th class="py-3 px-6 text-left">Name</th>
+                        <th class="py-3 px-6 text-left">Specialty</th>
+                        <th class="py-3 px-6 text-left">Email</th>
+                        <th class="py-3 px-6 text-left">Appointment</th>
+                    </tr>
+                </thead>
+                <tbody id="doctorTable" class="text-gray-700">
+                    <!-- Doctor records will be populated here -->
+                </tbody>
+            </table>
+        </section>
+    </div>
+    
+    <script>
+       const key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ia3BsbWZwZXJqdGVndWdjd3p6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTgxNzQzMDUsImV4cCI6MjAzMzc1MDMwNX0.u52UJNzNT3jEhLQCVfzyeqxSCVwlYgdT538pqDB9Ap0";
+const url = "https://nbkplmfperjtegugcwzz.supabase.co";
+const database = supabase.createClient(url, key);
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const { data: doctors, error } = await database
+                    .from('doctors')
+                    .select('l_no, d_id, firstname, lastname, spec, email');
+
+                if (error) {
+                    throw error;
+                }
+
+                const doctorTable = document.getElementById('doctorTable');
+                doctorTable.innerHTML = '';
+                doctors.forEach(doctor => {
+                    const row = document.createElement('tr');
+                    const visitLink = `visit.html?doctorId=${doctor.d_id}`;
+                    row.innerHTML = `
+                        <td class="py-2 px-6 border-b">${doctor.l_no}</td>
+                        <td class="py-2 px-6 border-b">${doctor.firstname} ${doctor.lastname}</td>
+                        <td class="py-2 px-6 border-b">${doctor.spec}</td>
+                        <td class="py-2 px-6 border-b">${doctor.email}</td>
+                        <td class="py-2 px-6 border-b"><a href="${visitLink}" class="text-blue-500 underline">Book Appointment</a></td>
+                    `;
+                    doctorTable.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error fetching doctors:', error.message);
+            }
+        });
+    </script>
+</body>
+</html>

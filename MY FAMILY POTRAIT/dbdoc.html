@@ -77,11 +77,7 @@
         .inactive {
             color: rgba(9, 80, 15, 0.4);
         }
-        .leave {
-            background: rgb(108, 4, 4);
-            color: white;
-            border-radius: 50%;
-        }
+
         .available {
             background: rgb(13, 2, 61);
             color: white;
@@ -254,14 +250,14 @@
 
             document.querySelectorAll('.date').forEach(dateElement => {
                 dateElement.addEventListener('click', () => {
-                    if (dateElement.classList.contains('leave')) {
-                        dateElement.classList.remove('leave');
+                    if (dateElement.classList.contains('available')) {
+                        dateElement.classList.remove('available');
                         dateElement.classList.add('available');
                     } else if (dateElement.classList.contains('available')) {
                         dateElement.classList.remove('available');
-                        dateElement.classList.add('leave');
+                        dateElement.classList.add('available');
                     } else {
-                        dateElement.classList.add('leave');
+                        dateElement.classList.add('available');
                     }
                 });
             });
@@ -280,7 +276,7 @@
         updateCalendar(); 
 
         submitBtn.addEventListener('click', async () => {
-        const leaveDates = [];
+        const availableDates = [];
         const doctorId = localStorage.getItem('doctorId');
 
         if (!doctorId) {
@@ -289,31 +285,31 @@
         }
 
         document.querySelectorAll('.date').forEach(dateElement => {
-            if (dateElement.classList.contains('leave')) {
+            if (dateElement.classList.contains('available')) {
             const dateStr = dateElement.getAttribute('data-date');
             const dateObj = new Date(dateStr);
             const dateString = dateObj.toISOString().split('T')[0];
-            leaveDates.push(dateString);
+            availableDates.push(dateString);
         }
         });
 
-        console.log('Leave Dates:', leaveDates);
-        alert(`Leave Dates: ${leaveDates.join(', ')}`);
+        console.log('avaailble Dates:', availableDates);
+        alert(`available Dates: ${availableDates.join(', ')}`);
 
         try {
             const { data, error } = await database
                 .from('doctors')
-                .update({ leaveDates: leaveDates })
+                .update({ availableDates: availableDates })
                 .eq('d_id', doctorId);
 
             if (error) {
                 throw error; 
             }
 
-            alert('Leave dates saved successfully.');
+            alert('available dates saved successfully.');
         } catch (error) {
-            console.error('Error saving leave dates:', error.message);
-            alert('Error saving leave dates. Please try again.');
+            console.error('Error saving available dates:', error.message);
+            alert('Error saving available dates. Please try again.');
         }
         updateCalendar(); // Initial call to display the calendar
     });

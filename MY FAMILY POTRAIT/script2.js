@@ -48,12 +48,15 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      if (doctorData && doctorData.password === password) {
+      if (doctorData && doctorData.password === password && doctorData.approve==true) {
         alert("Login successful!");
-        localStorage.setItem("doctorId", doctorData.d_id);
+        sessionStorage.setItem("doctorId", doctorData.d_id);
         window.location.href = "dbdoc.html";
-      } else {
-        alert("Invalid email or password.");
+      } else if(doctorData && doctorData.password === password) {
+        alert("You are not verified by the Admin.");
+      }
+      else{
+        alert("invalid email or password");
       }
     } catch (error) {
       console.error("Error logging in:", error);

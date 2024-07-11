@@ -67,13 +67,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         usersTable.innerHTML = '';
         users.forEach(user => {
             const row = document.createElement('tr');
-            const dashboardLink = `http://127.0.0.1:5500/dashboard.html${user.userid}`;
+            const dashboardLink = `db/d2.html?userid=${user.userid}`;
             row.innerHTML = `
                 <td class="py-2 px-8 border-b">${user.firstname} ${user.lastname}</td>
                 <td class="py-2 px-8 border-b">${user.email}</td>
                 <td class="py-2 px-4 border-b"><a href="${dashboardLink}" class="text-blue-500 underline">Dashboard</a></td>
+                
         
             `;
+            
              usersTable.appendChild(row);
         });
     } catch (error) {
