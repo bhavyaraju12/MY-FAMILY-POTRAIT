@@ -11,7 +11,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 40vh;
+            height: 100vh;
             margin: 0;
             background-color: #f8f8f8;
         }
@@ -54,11 +54,28 @@
             border-radius: 4px;
             font-size: 16px;
         }
+        .result-container {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: black;
+        }
+        .result-container h3 {
+            margin: 0;
+            font-size: 20px;
+        }
+        .result-container p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 <body>
     <div class="container">
-        <p>Test Result<p>
+        <p>Test Result</p>
         <div class="upload-container">
             <h2>Upload Files</h2>
             <p>Select File here</p>
@@ -66,6 +83,61 @@
             <input type="file" id="fileUpload" accept=".pdf,.txt,.doc,.docx">
             <label for="fileUpload">Choose File</label>
         </div>
+        <div class="result-container" id="resultContainer" style="display:none;">
+            <h3>Uploaded File Details</h3>
+            <p id="fileName"></p>
+            <p id="uploadDate"></p>
+            <p id="fileUrl"></p>
+        </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ia3BsbWZwZXJqdGVndWdjd3p6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTgxNzQzMDUsImV4cCI6MjAzMzc1MDMwNX0.u52UJNzNT3jEhLQCVfzyeqxSCVwlYgdT538pqDB9Ap0";
+            const url = "https://nbkplmfperjtegugcwzz.supabase.co";
+            const database = supabase.createClient(url, key);
+
+            document.getElementById('fileUpload').addEventListener('change', async function(event) {
+                const file = event.target.files[0];
+                const userID = localStorage.getItem('userID');
+
+                if (!userID) {
+                    alert('User ID not found in localStorage');
+                    return;
+                }
+
+                if (file) {
+                    const fileName = file.name;
+                    const uploadDate = new Date().toISOString();
+
+                    // Upload file to Supabase Storage
+                    const { data, error } = await database.storage.from('uploads').upload(`public/${fileName}`, file);
+
+                    if (error) {
+                        console.error('Error uploading file:', error);
+                        return;
+                    }
+
+                    const fileUrl = `${url}/storage/v1/object/public/uploads/${fileName}`;
+
+                    // Update user's test_document column
+                    const { data: userData, error: updateError } = await database
+                        .from('users')
+                        .update({ test_document: { file_name: fileName, upload_date: uploadDate, file_url: fileUrl } })
+                        .eq('userid', userID);
+
+                    if (updateError) {
+                        console.error('Error updating user data:', updateError);
+                        return;
+                    }
+
+                    document.getElementById('fileName').textContent = `File Name: ${fileName}`;
+                    document.getElementById('uploadDate').textContent = `Upload Date: ${new Date().toLocaleString()}`;
+                    document.getElementById('fileUrl').innerHTML = `File URL: <a href="${fileUrl}" target="_blank">${fileUrl}</a>`;
+                    document.getElementById('resultContainer').style.display = 'block';
+                }
+            });
+        });
+    </script>
 </body>
 </html>

@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Document</title>
    <script src="https://cdn.tailwindcss.com"></script>
    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-   
+
    <!-- Web Fonts -->
    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin">
 
@@ -24,13 +25,16 @@
    <link rel="stylesheet" href="assets/plugins/line-icons/line-icons.css">
    <link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.min.css">
 
+
    <!-- CSS Customization -->
    <link rel="stylesheet" href="assets/css/custom.css">
    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600&subset=cyrillic,latin">
    <link href="/dist/output.css" rel="stylesheet">
+
+
 </head>
 
-<body class="bg-gray-100" style="background-color: #d7e2d1;">
+<body id="pdb" class="bg-gray-100" style="background-color: #d7e2d1;">
    <button data-drawer-target="sidebar-multi-level-sidebar" data-drawer-toggle="sidebar-multi-level-sidebar"
       aria-controls="sidebar-multi-level-sidebar" type="button"
       class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-300 dark:focus:ring-gray-600">
@@ -49,7 +53,7 @@
 
       <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-white">
          <div class="p-4 border-b">
-            <h1 class="text-xl color-green" style="color: #72c02c;">MY FAMILY PORTRAIT</h1>
+            <h1 class="text-xl color-green" style="color: #72c02c;">MY FAMILY POTRAIT</h1>
          </div>
          <ul class="space-y-2 font-medium">
             <li>
@@ -77,7 +81,7 @@
                </a>
             </li>
             <li>
-               <a href="../appointment.html"
+               <a href="../visit.html"
                   class="flex items-center p-2 text-gray-900 rounded-lg dark:text-black hover:bg-gray-200 dark:hover:bg-gray-300 group">
                   <img src="./docic.jpg" width="20px" height="20px" alt="">
                   <span class="flex-1 ms-3 whitespace-nowrap" style=" font-family: 'Open Sans', sans-serif">Doctor's
@@ -225,17 +229,15 @@
                   <h2 class="text-lg font-semibold mb-4">BP CHART</h2>
                   <form id="bpForm" class="mb-6">
                      <div class="mb-4">
-                        <label for="bpMonth" class="block text-sm font-medium text-gray-700">Month</label>
-                        <input type="text" id="bpMonth" class="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                           placeholder="Enter month (e.g., Jul)">
+                         <label for="bpMonth" class="block text-sm font-medium text-gray-700">Month</label>
+                         <input type="text" id="bpMonth" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" placeholder="Enter month (e.g., Jul)">
                      </div>
                      <div class="mb-4">
-                        <label for="bpValue" class="block text-sm font-medium text-gray-700">BP Value</label>
-                        <input type="number" id="bpValue"
-                           class="mt-1 p-2 block w-full border border-gray-300 rounded-md" placeholder="Enter BP value">
+                         <label for="bpValue" class="block text-sm font-medium text-gray-700">BP Value</label>
+                         <input type="number" id="bpValue" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" placeholder="Enter BP value">
                      </div>
                      <button type="submit" class="w-full p-2 bg-blue-500 text-white rounded-md">Add BP Value</button>
-                  </form>
+                 </form>
                   <div>
                      <canvas id="bp" class="w-full h-32"></canvas>
                   </div>
@@ -245,104 +247,77 @@
          </div>
       </div>
    </div>
-
    <script>
-      /// Check if userID is stored in localStorage
-const userID = localStorage.getItem('userID');
-
-if (userID) {
-   // Supabase credentials
-   const key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ia3BsbWZwZXJqdGVndWdjd3p6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTgxNzQzMDUsImV4cCI6MjAzMzc1MDMwNX0.u52UJNzNT3jEhLQCVfzyeqxSCVwlYgdT538pqDB9Ap0";
-   const url = "https://nbkplmfperjtegugcwzz.supabase.co";
-
-   // Fetch user details from Supabase
-   fetch(`${url}/user/${userID}`, {
-      method: 'GET',
-      headers: {
-         'Content-Type': 'application/json',
-         'Authorization': `Bearer ${key}`
-      }
-   })
-   .then(response => {
-      if (!response.ok) {
-         throw new Error('Network response was not ok');
-      }
-      return response.json();
-   })
-   .then(user => {
-      // Populate user details
-      document.getElementById('user-name').textContent = user.name;
-      document.getElementById('user-email').textContent = user.email;
-      // Add more fields as needed
-   })
-   .catch(error => {
-      console.error('Error fetching user data:', error);
-   });
-} else {
-   // Redirect to login page if userID is not found
-   window.location.href = 'login.html';
-}
+       const userID = localStorage.getItem('userID');
+       if (!userID) {
+        pdb.innerHTML = '<p class="text-center text-red-500">No user logged in.</p>';
+        return;
+    }
 
 
-      // Heart Rate Chart
-      const heartRateCtx = document.getElementById('heartRateChart').getContext('2d');
-      new Chart(heartRateCtx, {
-         type: 'line',
-         data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-            datasets: [{
-               label: 'Heart Rate',
-               data: [60, 70, 80, 75, 90, 85],
-               borderColor: 'rgba(75, 192, 192, 1)',
-               backgroundColor: 'rgba(75, 192, 192, 0.2)',
-               fill: true,
-            }]
-         },
-         options: {
-            scales: {
-               y: {
-                  beginAtZero: true
-               }
-            }
-         }
-      });
+   </script>
+   <script type="module" src="./db/bmi.js"></script>
+   <script>
+      //BP
+      const bpRateCtx = document.getElementById('bp').getContext('2d');
+            const bpChart = new Chart(bpRateCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'BP',
+                        data: [85, 100, 90, 95, 96, 98],
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        fill: true,
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
 
-         document.getElementById('bpForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const month = document.getElementById('month').value;
-            const bpValue = document.getElementById('bpValue').value;
+            document.getElementById('bpForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const month = document.getElementById('bpMonth').value;
+                const bpValue = document.getElementById('bpValue').value;
 
-            if (month && bpValue) {
-               bpChart.data.labels.push(month);
-               bpChart.data.datasets[0].data.push(bpValue);
-               bpChart.update();
+                if (month && bpValue) {
+                    bpChart.data.labels.push(month);
+                    bpChart.data.datasets[0].data.push(bpValue);
+                    bpChart.update();
 
-               document.getElementById('month').value = '';
-               document.getElementById('bpValue').value = '';
-            }
-         });
+                    document.getElementById('bpMonth').value = '';
+                    document.getElementById('bpValue').value = '';
+                }
+            });
+
       // BMI
-      const user = {
-         name: 'John Doe',
-         height: 1.75, // in meters
-         weight: 70   // in kilograms
-      };
+      // const user = {
+      //    name: 'John Doe',
+      //    height: 1.75, // in meters
+      //    weight: 70   // in kilograms
+      // };
 
-      function calculateBMI(height, weight) {
-         return (weight / (height * height)).toFixed(2);
-      }
+      // function calculateBMI(height, weight) {
+      //    return (weight / (height * height)).toFixed(2);
+      // }
 
-      document.addEventListener('DOMContentLoaded', () => {
-         const { name, height, weight } = user;
-         const bmi = calculateBMI(height, weight);
+      // document.addEventListener('DOMContentLoaded', () => {
+      //    const { name, height, weight } = user;
+      //    const bmi = calculateBMI(height, weight);
 
-         document.getElementById('name').textContent = name;
-         document.getElementById('height').textContent = height;
-         document.getElementById('weight').textContent = weight;
-         document.getElementById('result').textContent = `Your BMI is ${bmi}`;
-      });
+      //    document.getElementById('name').textContent = name;
+      //    document.getElementById('height').textContent = height;
+      //    document.getElementById('weight').textContent = weight;
+      //    document.getElementById('result').textContent = `Your BMI is ${bmi}`;
+      // });
 
-      // SUGAR Chart
+      // diabetes Chart
       const diabetesCtx = document.getElementById('diabetes').getContext('2d');
       const diabetesChart = new Chart(diabetesCtx, {
          type: 'line',
@@ -380,5 +355,7 @@ if (userID) {
          }
       });
    </script>
+   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.22.5/dist/umd/supabase.min.js"></script>
 </body>
+
 </html>
