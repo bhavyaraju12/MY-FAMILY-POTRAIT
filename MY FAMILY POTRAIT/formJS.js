@@ -142,7 +142,7 @@ form.addEventListener("submit", async (event) => {
         weight: relative.weight,
         medical_conditions: relative.medical_conditions,
         age: relative.age,
-        photo_url: relativePhotoUrl,
+        photo_url: relativePhotoUrl.publicUrl,
         patient_id: patientId, // Use the patient's ID as the foreign key
       }).select(); // Add .select() to return the inserted data
 

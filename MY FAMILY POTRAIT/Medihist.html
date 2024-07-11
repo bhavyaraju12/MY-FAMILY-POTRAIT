@@ -146,12 +146,8 @@ patientContainer.innerHTML = `
                             <td>${relative.weight}</td>
                         </tr>
                         <tr>
-                            <td class="font-semibold">Blood group:</td>
-                            <td>${relative.blood_group}</td>
-                        </tr>
-                        <tr>
                             <td class="font-semibold">Medical conditions:</td>
-                            <td>${Array.isArray(relative.medical_conditions) ? relative.medical_conditions.join(', ') : ''}</td>
+                            <td>${JSON.parse(patientData.medical_conditions)}</td>
                         </tr>
                         <tr>
                             <td class="font-semibold">Age:</td>
